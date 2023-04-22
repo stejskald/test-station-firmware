@@ -30,15 +30,15 @@
     <EraseKey />
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.52.0" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.52.0" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
     <Compiler>gcc</Compiler>
     <configurator>AtmelStart</configurator>
@@ -827,7 +827,13 @@
     <Compile Include="hri\hri_wdt_c21.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\ads7830.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\ads7830.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="temperature_sensor\at30tse75x\at30tse75x.c">
@@ -874,6 +880,8 @@
     <Folder Include="hpl\port\" />
     <Folder Include="hpl\sercom\" />
     <Folder Include="hri\" />
+    <Folder Include="include" />
+    <Folder Include="source" />
     <Folder Include="temperature_sensor\" />
     <Folder Include="temperature_sensor\at30tse75x\" />
   </ItemGroup>

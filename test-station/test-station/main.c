@@ -35,15 +35,16 @@
 #include "atmel_start_pins.h"
 #include "io1_xplained_demo_config.h"
 #include "temperature_sensor_main.h"
+#include "include/ads7830.h"
 
 #include <hal_delay.h>
 #include <stdio.h>
 #include <string.h>
 
-#define STR_SIZE 50
+#define STR_SIZE 24
 
 uint16_t                     temp_result;
-static struct io_descriptor *terminal_io;
+static struct io_descriptor *terminal_io; // EDBG_COM
 
 void UART_EDBG_init()
 {
@@ -53,27 +54,59 @@ void UART_EDBG_init()
 
 int main(void)
 {
-	uint8_t light_sensor_result_buf[2];
-	char    str[STR_SIZE];
-
+	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
-
-	temperature_sensors_init();
+	
 	UART_EDBG_init();
+	ads7830_init_ext();
+	
+	uint8_t adc_buffer[8];
+	char terminal_string[STR_SIZE];
+	
+	
+/************************************************************************/
+/* Default                                                              */
+/************************************************************************/
+// 	uint8_t light_sensor_result_buf[2];
+// 	char    str[STR_SIZE];
 
-	adc_sync_enable_channel(&IO1_LIGHT_SENS, CONF_ADC_CHANNEL);
+// 	atmel_start_init();
 
+// 	temperature_sensors_init();
+// 	UART_EDBG_init();
+
+// 	adc_sync_enable_channel(&IO1_LIGHT_SENS, CONF_ADC_CHANNEL);
+	
+
+	io_write(terminal_io, (uint8_t *)"Well, terminal works!\n", 22);
 	while (1) {
-
-		delay_ms(1000);
-		temp_result = (uint16_t)temperature_sensor_read(AT30TSE75X);
-
-		adc_sync_read_channel(&IO1_LIGHT_SENS, CONF_ADC_CHANNEL, light_sensor_result_buf, 2);
-
-		uint16_t light_sensor_result = *((uint16_t *)light_sensor_result_buf);
-
-		snprintf(str, STR_SIZE, "Temperature: %d Celsius, light sensor: 0x%x\r\n", temp_result, light_sensor_result);
-
-		io_write(terminal_io, (uint8_t *)str, strlen(str));
+// 		for (uint8_t chnl = 0; chnl < 8; ++chnl) {
+// 			adc_buffer[chnl] = ads7830_measure_single_ended(SDMODE_SINGLE, chnl, PDIROFF_ADCON);
+// 		
+// 			if(0 > sprintf(terminal_string, "Channel %u: %u\n", chnl, adc_buffer[chnl])) return -666;
+// 		
+// 			io_write(terminal_io, (uint8_t *)terminal_string, 13);
+// 		}
+		
+		adc_buffer[0] = ads7830_measure_single_ended(SDMODE_SINGLE, 2, PDIROFF_ADCON);
+		if(0 > snprintf(terminal_string, STR_SIZE, "Channel %u, value: 0x%x\r\n", 2, adc_buffer[0])) return -666;
+		
+		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+		
+		delay_ms(150);
+		
+/************************************************************************/
+/* Default                                                              */
+/************************************************************************/
+// 		delay_ms(1000);
+// 		temp_result = (uint16_t)temperature_sensor_read(AT30TSE75X);
+// 
+// 		adc_sync_read_channel(&IO1_LIGHT_SENS, CONF_ADC_CHANNEL, light_sensor_result_buf, 2);
+// 
+// 		uint16_t light_sensor_result = *((uint16_t *)light_sensor_result_buf);
+// 
+// 		snprintf(str, STR_SIZE, "Temperature: %d Celsius, light sensor: 0x%x\r\n", temp_result, light_sensor_result);
+// 
+// 		io_write(terminal_io, (uint8_t *)str, strlen(str));
 	}
 }
