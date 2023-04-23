@@ -15,9 +15,9 @@
 
 struct adc_sync_descriptor IO1_LIGHT_SENS;
 
-struct i2c_m_sync_desc I2C;
+struct i2c_m_sync_desc I2C_SERCOM0;
 
-struct i2c_m_sync_desc ADS7830;
+struct i2c_m_sync_desc I2C_SERCOM2;
 
 struct usart_sync_descriptor EDBG_COM;
 
@@ -43,7 +43,7 @@ void IO1_LIGHT_SENS_init(void)
 	adc_sync_init(&IO1_LIGHT_SENS, ADC0, _adc_get_adc_sync());
 }
 
-void I2C_PORT_init(void)
+void I2C_SERCOM0_PORT_init(void)
 {
 
 	gpio_set_pin_pull_mode(PA08,
@@ -67,21 +67,21 @@ void I2C_PORT_init(void)
 	gpio_set_pin_function(PA09, PINMUX_PA09C_SERCOM0_PAD1);
 }
 
-void I2C_CLOCK_init(void)
+void I2C_SERCOM0_CLOCK_init(void)
 {
 	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM0_GCLK_ID_CORE, CONF_GCLK_SERCOM0_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
 	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM0_GCLK_ID_SLOW, CONF_GCLK_SERCOM0_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
 	hri_mclk_set_APBCMASK_SERCOM0_bit(MCLK);
 }
 
-void I2C_init(void)
+void I2C_SERCOM0_init(void)
 {
-	I2C_CLOCK_init();
-	i2c_m_sync_init(&I2C, SERCOM0);
-	I2C_PORT_init();
+	I2C_SERCOM0_CLOCK_init();
+	i2c_m_sync_init(&I2C_SERCOM0, SERCOM0);
+	I2C_SERCOM0_PORT_init();
 }
 
-void ADS7830_PORT_init(void)
+void I2C_SERCOM2_PORT_init(void)
 {
 
 	gpio_set_pin_pull_mode(IO1_TWI_SDA,
@@ -105,18 +105,18 @@ void ADS7830_PORT_init(void)
 	gpio_set_pin_function(IO1_TWI_SCL, PINMUX_PA13C_SERCOM2_PAD1);
 }
 
-void ADS7830_CLOCK_init(void)
+void I2C_SERCOM2_CLOCK_init(void)
 {
 	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_CORE, CONF_GCLK_SERCOM2_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
 	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_SLOW, CONF_GCLK_SERCOM2_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
 	hri_mclk_set_APBCMASK_SERCOM2_bit(MCLK);
 }
 
-void ADS7830_init(void)
+void I2C_SERCOM2_init(void)
 {
-	ADS7830_CLOCK_init();
-	i2c_m_sync_init(&ADS7830, SERCOM2);
-	ADS7830_PORT_init();
+	I2C_SERCOM2_CLOCK_init();
+	i2c_m_sync_init(&I2C_SERCOM2, SERCOM2);
+	I2C_SERCOM2_PORT_init();
 }
 
 void EDBG_COM_PORT_init(void)
@@ -147,9 +147,9 @@ void system_init(void)
 
 	IO1_LIGHT_SENS_init();
 
-	I2C_init();
+	I2C_SERCOM0_init();
 
-	ADS7830_init();
+	I2C_SERCOM2_init();
 
 	EDBG_COM_init();
 }

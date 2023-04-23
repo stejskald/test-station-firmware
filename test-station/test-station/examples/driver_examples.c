@@ -24,24 +24,24 @@ void IO1_LIGHT_SENS_example(void)
 	}
 }
 
-void I2C_example(void)
+void I2C_SERCOM0_example(void)
 {
-	struct io_descriptor *I2C_io;
+	struct io_descriptor *I2C_SERCOM0_io;
 
-	i2c_m_sync_get_io_descriptor(&I2C, &I2C_io);
-	i2c_m_sync_enable(&I2C);
-	i2c_m_sync_set_slaveaddr(&I2C, 0x12, I2C_M_SEVEN);
-	io_write(I2C_io, (uint8_t *)"Hello World!", 12);
+	i2c_m_sync_get_io_descriptor(&I2C_SERCOM0, &I2C_SERCOM0_io);
+	i2c_m_sync_enable(&I2C_SERCOM0);
+	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, 0x12, I2C_M_SEVEN);
+	io_write(I2C_SERCOM0_io, (uint8_t *)"Hello World!", 12);
 }
 
-void ADS7830_example(void)
+void I2C_SERCOM2_example(void)
 {
-	struct io_descriptor *ADS7830_io;
+	struct io_descriptor *I2C_SERCOM2_io;
 
-	i2c_m_sync_get_io_descriptor(&ADS7830, &ADS7830_io);
-	i2c_m_sync_enable(&ADS7830);
-	i2c_m_sync_set_slaveaddr(&ADS7830, 0x12, I2C_M_SEVEN);
-	io_write(ADS7830_io, (uint8_t *)"Hello World!", 12);
+	i2c_m_sync_get_io_descriptor(&I2C_SERCOM2, &I2C_SERCOM2_io);
+	i2c_m_sync_enable(&I2C_SERCOM2);
+	i2c_m_sync_set_slaveaddr(&I2C_SERCOM2, 0x12, I2C_M_SEVEN);
+	io_write(I2C_SERCOM2_io, (uint8_t *)"Hello World!", 12);
 }
 
 /**

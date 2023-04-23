@@ -18,6 +18,6 @@ struct temperature_sensor *AT30TSE75X;
 void temperature_sensors_init(void)
 {
 
-	i2c_m_sync_enable(&I2C);
-	AT30TSE75X = at30tse75x_construct(&AT30TSE75X_descr.parent, &I2C, CONF_AT30TSE75X_RESOLUTION);
+	i2c_m_sync_enable(&I2C_SERCOM0);
+	AT30TSE75X = at30tse75x_construct(&AT30TSE75X_descr.parent, &I2C_SERCOM0, CONF_AT30TSE75X_RESOLUTION);
 }

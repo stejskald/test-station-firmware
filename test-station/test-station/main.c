@@ -35,15 +35,16 @@
 #include "atmel_start_pins.h"
 #include "io1_xplained_demo_config.h"
 #include "temperature_sensor_main.h"
+#include "include/error_codes.h"
 #include "include/ads7830.h"
+#include "include/at24c.h"
 
 #include <hal_delay.h>
 #include <stdio.h>
 #include <string.h>
 
-#define STR_SIZE 24
+#define STR_SIZE 60
 
-uint16_t                     temp_result;
 static struct io_descriptor *terminal_io; // EDBG_COM
 
 void UART_EDBG_init()
@@ -58,28 +59,35 @@ int main(void)
 	atmel_start_init();
 	
 	UART_EDBG_init();
+	i2c_m_sync_enable(&I2C_SERCOM2);
 	ads7830_init_ext();
+	at24c_init();
 	
-	uint8_t adc_buffer[8];
 	char terminal_string[STR_SIZE];
+	uint8_t adc_buffer[8];
+	uint8_t eeprom_buffer[4];
+	uint16_t eeprom_rw_addr;
+	int8_t ret_code = 0;
 	
-	
-/************************************************************************/
-/* Default                                                              */
-/************************************************************************/
-// 	uint8_t light_sensor_result_buf[2];
-// 	char    str[STR_SIZE];
-
-// 	atmel_start_init();
-
-// 	temperature_sensors_init();
-// 	UART_EDBG_init();
-
-// 	adc_sync_enable_channel(&IO1_LIGHT_SENS, CONF_ADC_CHANNEL);
-	
-
 	io_write(terminal_io, (uint8_t *)"Well, terminal works!\n", 22);
+	
+	eeprom_buffer[0] = 'A';
+	eeprom_rw_addr = 0x1234;
+	ret_code = at24c_byte_write(eeprom_rw_addr, &eeprom_buffer[0]);
+	if (ret_code != 0){
+		if(0 > snprintf(terminal_string, STR_SIZE, "Byte write to EEPROM failed with code %d.\n", ret_code)) return -666;
+		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+	}
+	
+	ret_code = at24c_current_addr_read(&eeprom_buffer[1]);
+	if (ret_code != 0){
+		if(0 > snprintf(terminal_string, STR_SIZE, "Current address read from EEPROM failed with code %d.\n", ret_code)) return -666;
+		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+	}
+	
 	while (1) {
+		delay_ms(150);
+		
 // 		for (uint8_t chnl = 0; chnl < 8; ++chnl) {
 // 			adc_buffer[chnl] = ads7830_measure_single_ended(SDMODE_SINGLE, chnl, PDIROFF_ADCON);
 // 		
@@ -88,25 +96,13 @@ int main(void)
 // 			io_write(terminal_io, (uint8_t *)terminal_string, 13);
 // 		}
 		
-		adc_buffer[0] = ads7830_measure_single_ended(SDMODE_SINGLE, 2, PDIROFF_ADCON);
-		if(0 > snprintf(terminal_string, STR_SIZE, "Channel %u, value: 0x%x\r\n", 2, adc_buffer[0])) return -666;
 		
+		adc_buffer[0] = ads7830_measure_single_ended(SDMODE_SINGLE, 2, PDIROFF_ADCON);
+		
+		if(0 > snprintf(terminal_string, STR_SIZE, "Channel %u, value: 0x%x\n", 2, adc_buffer[0])) return -666;
 		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
 		
-		delay_ms(150);
 		
-/************************************************************************/
-/* Default                                                              */
-/************************************************************************/
-// 		delay_ms(1000);
-// 		temp_result = (uint16_t)temperature_sensor_read(AT30TSE75X);
-// 
-// 		adc_sync_read_channel(&IO1_LIGHT_SENS, CONF_ADC_CHANNEL, light_sensor_result_buf, 2);
-// 
-// 		uint16_t light_sensor_result = *((uint16_t *)light_sensor_result_buf);
-// 
-// 		snprintf(str, STR_SIZE, "Temperature: %d Celsius, light sensor: 0x%x\r\n", temp_result, light_sensor_result);
-// 
-// 		io_write(terminal_io, (uint8_t *)str, strlen(str));
+		
 	}
 }

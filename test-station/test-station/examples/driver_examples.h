@@ -14,9 +14,9 @@ extern "C" {
 
 void IO1_LIGHT_SENS_example(void);
 
-void I2C_example(void);
+void I2C_SERCOM0_example(void);
 
-void ADS7830_example(void);
+void I2C_SERCOM2_example(void);
 
 void EDBG_COM_example(void);
 

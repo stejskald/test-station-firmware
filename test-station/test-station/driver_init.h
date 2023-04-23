@@ -31,9 +31,9 @@ extern "C" {
 
 extern struct adc_sync_descriptor IO1_LIGHT_SENS;
 
-extern struct i2c_m_sync_desc I2C;
+extern struct i2c_m_sync_desc I2C_SERCOM0;
 
-extern struct i2c_m_sync_desc ADS7830;
+extern struct i2c_m_sync_desc I2C_SERCOM2;
 
 extern struct usart_sync_descriptor EDBG_COM;
 
@@ -41,13 +41,13 @@ void IO1_LIGHT_SENS_PORT_init(void);
 void IO1_LIGHT_SENS_CLOCK_init(void);
 void IO1_LIGHT_SENS_init(void);
 
-void I2C_CLOCK_init(void);
-void I2C_init(void);
-void I2C_PORT_init(void);
+void I2C_SERCOM0_CLOCK_init(void);
+void I2C_SERCOM0_init(void);
+void I2C_SERCOM0_PORT_init(void);
 
-void ADS7830_CLOCK_init(void);
-void ADS7830_init(void);
-void ADS7830_PORT_init(void);
+void I2C_SERCOM2_CLOCK_init(void);
+void I2C_SERCOM2_init(void);
+void I2C_SERCOM2_PORT_init(void);
 
 void EDBG_COM_PORT_init(void);
 void EDBG_COM_CLOCK_init(void);

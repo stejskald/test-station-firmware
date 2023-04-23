@@ -30,7 +30,7 @@ middlewares:
     functionality: Temperature_Sensor
     api: Sensor:Temperature-Sensor:AT30TSE75X
     dependencies:
-      I2C instance: I2C
+      I2C instance: I2C_SERCOM0
 drivers:
   IO1_LIGHT_SENS:
     user_label: IO1_LIGHT_SENS
@@ -644,8 +644,8 @@ drivers:
     variant: null
     clocks:
       domain_group: null
-  I2C:
-    user_label: I2C
+  I2C_SERCOM0:
+    user_label: I2C_SERCOM0
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::SERCOM0::driver_config_definition::I2C.Master.Standard~2FFast-mode::HAL:Driver:I2C.Master.Sync
     functionality: I2C
     api: HAL:Driver:I2C_Master_Sync
@@ -684,8 +684,8 @@ drivers:
         configuration:
           core_gclk_selection: Generic clock generator 0
           slow_gclk_selection: Generic clock generator 3
-  ADS7830:
-    user_label: ADS7830
+  I2C_SERCOM2:
+    user_label: I2C_SERCOM2
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::SERCOM2::driver_config_definition::I2C.Master.Standard~2FFast-mode::HAL:Driver:I2C.Master.Sync
     functionality: I2C
     api: HAL:Driver:I2C_Master_Sync

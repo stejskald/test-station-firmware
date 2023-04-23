@@ -23,7 +23,7 @@ extern "C" {
 // #define ADS7830_I2C_ADDR_R ((ADS7830_I2C_ADDR << 1) | 0x01)
 
 // Conversion Delay (in ms)
-#define ADS7830_CONVERSIONDELAY      (100)
+#define ADS7830_CONVERSION_DELAY     (100)
 
 // Command Byte Definitions
 #define ADS7830_CMD_SD_MASK          (0x80) // Single-Ended/Differential Inputs
