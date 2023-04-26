@@ -10,20 +10,6 @@
 #include "driver_init.h"
 #include "utils.h"
 
-/**
- * Example of using IO1_LIGHT_SENS to generate waveform.
- */
-void IO1_LIGHT_SENS_example(void)
-{
-	uint8_t buffer[2];
-
-	adc_sync_enable_channel(&IO1_LIGHT_SENS, 0);
-
-	while (1) {
-		adc_sync_read_channel(&IO1_LIGHT_SENS, 0, buffer, 2);
-	}
-}
-
 void I2C_SERCOM0_example(void)
 {
 	struct io_descriptor *I2C_SERCOM0_io;
@@ -32,16 +18,6 @@ void I2C_SERCOM0_example(void)
 	i2c_m_sync_enable(&I2C_SERCOM0);
 	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, 0x12, I2C_M_SEVEN);
 	io_write(I2C_SERCOM0_io, (uint8_t *)"Hello World!", 12);
-}
-
-void I2C_SERCOM2_example(void)
-{
-	struct io_descriptor *I2C_SERCOM2_io;
-
-	i2c_m_sync_get_io_descriptor(&I2C_SERCOM2, &I2C_SERCOM2_io);
-	i2c_m_sync_enable(&I2C_SERCOM2);
-	i2c_m_sync_set_slaveaddr(&I2C_SERCOM2, 0x12, I2C_M_SEVEN);
-	io_write(I2C_SERCOM2_io, (uint8_t *)"Hello World!", 12);
 }
 
 /**

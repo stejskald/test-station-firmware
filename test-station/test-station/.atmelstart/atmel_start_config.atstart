@@ -1,5 +1,5 @@
 format_version: '2'
-name: IO1 Xplained demo
+name: My Project
 versions:
   api: '1.0'
   backend: 1.9.698
@@ -17,79 +17,9 @@ board:
   identifier: SAMC21XplainedPro
   device: SAMC21J18A-AN
 details: null
-application:
-  definition: 'Atmel:Application_Examples:0.0.1::Application:IO1_Xplained_demo:'
-  configuration:
-    adc_channel_number: 0
-middlewares:
-  AT30TSE75X:
-    user_label: AT30TSE75X
-    configuration:
-      conf_resolution: 11-bits
-    definition: Atmel:Generic_Temperature_Sensor:0.0.1::AT30TSE75X
-    functionality: Temperature_Sensor
-    api: Sensor:Temperature-Sensor:AT30TSE75X
-    dependencies:
-      I2C instance: I2C_SERCOM0
+application: null
+middlewares: {}
 drivers:
-  IO1_LIGHT_SENS:
-    user_label: IO1_LIGHT_SENS
-    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::ADC0::driver_config_definition::ADC::HAL:Driver:ADC.Sync
-    functionality: ADC
-    api: HAL:Driver:ADC_Sync
-    configuration:
-      adc_advanced_settings: false
-      adc_arch_adjres: 0
-      adc_arch_corren: false
-      adc_arch_dbgrun: false
-      adc_arch_dualsel: BOTH
-      adc_arch_event_settings: false
-      adc_arch_flushei: false
-      adc_arch_flushinv: false
-      adc_arch_gaincorr: 0
-      adc_arch_leftadj: false
-      adc_arch_offcomp: false
-      adc_arch_offsetcorr: 0
-      adc_arch_ondemand: false
-      adc_arch_r2r: false
-      adc_arch_refcomp: false
-      adc_arch_resrdyeo: false
-      adc_arch_runstdby: false
-      adc_arch_samplen: 0
-      adc_arch_samplenum: 1 sample
-      adc_arch_seqen: 0
-      adc_arch_slaveen: false
-      adc_arch_startei: false
-      adc_arch_startinv: false
-      adc_arch_winlt: 0
-      adc_arch_winmode: No window mode
-      adc_arch_winmoneo: false
-      adc_arch_winut: 0
-      adc_differential_mode: false
-      adc_freerunning_mode: false
-      adc_pinmux_negative: Internal ground
-      adc_pinmux_positive: ADC AIN3 pin
-      adc_prescaler: Peripheral clock divided by 8
-      adc_reference: Internal bandgap reference
-      adc_resolution: 12-bit
-    optional_signals:
-    - identifier: IO1_LIGHT_SENS:AIN/3
-      pad: PB09
-      mode: Enabled
-      configuration: null
-      definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::optional_signal_definition::ADC0.AIN.3
-      name: ADC0/AIN/3
-      label: AIN/3
-    variant: null
-    clocks:
-      domain_group:
-        nodes:
-        - name: ADC
-          input: Generic clock generator 0
-          external: false
-          external_frequency: 0
-        configuration:
-          adc_gclk_selection: Generic clock generator 0
   DMAC:
     user_label: DMAC
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::DMAC::driver_config_definition::DMAC::HAL:HPL:DMAC
@@ -658,7 +588,7 @@ drivers:
       i2c_master_arch_runstdby: false
       i2c_master_arch_sdahold: 300-600ns hold time
       i2c_master_arch_sexttoen: false
-      i2c_master_arch_trise: 60
+      i2c_master_arch_trise: 215
       i2c_master_baud_rate: 100000
     optional_signals: []
     variant:
@@ -684,46 +614,6 @@ drivers:
         configuration:
           core_gclk_selection: Generic clock generator 0
           slow_gclk_selection: Generic clock generator 3
-  I2C_SERCOM2:
-    user_label: I2C_SERCOM2
-    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::SERCOM2::driver_config_definition::I2C.Master.Standard~2FFast-mode::HAL:Driver:I2C.Master.Sync
-    functionality: I2C
-    api: HAL:Driver:I2C_Master_Sync
-    configuration:
-      i2c_master_advanced: false
-      i2c_master_arch_dbgstop: Keep running
-      i2c_master_arch_inactout: Disabled
-      i2c_master_arch_lowtout: false
-      i2c_master_arch_mexttoen: false
-      i2c_master_arch_runstdby: false
-      i2c_master_arch_sdahold: 300-600ns hold time
-      i2c_master_arch_sexttoen: false
-      i2c_master_arch_trise: 215
-      i2c_master_baud_rate: 100000
-    optional_signals: []
-    variant:
-      specification: SDA=0, SCL=1
-      required_signals:
-      - name: SERCOM2/PAD/0
-        pad: PA12
-        label: SDA
-      - name: SERCOM2/PAD/1
-        pad: PA13
-        label: SCL
-    clocks:
-      domain_group:
-        nodes:
-        - name: Core
-          input: Generic clock generator 0
-          external: false
-          external_frequency: 0
-        - name: Slow
-          input: Generic clock generator 0
-          external: false
-          external_frequency: 0
-        configuration:
-          core_gclk_selection: Generic clock generator 0
-          slow_gclk_selection: Generic clock generator 0
   EDBG_COM:
     user_label: EDBG_COM
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::SERCOM4::driver_config_definition::UART::HAL:Driver:USART.Sync
@@ -774,12 +664,6 @@ drivers:
           core_gclk_selection: Generic clock generator 1
           slow_gclk_selection: Generic clock generator 0
 pads:
-  IO1_LIGHTSENSOR:
-    name: PB09
-    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::pad::PB09
-    mode: Analog
-    user_label: IO1_LIGHTSENSOR
-    configuration: null
   PA08:
     name: PA08
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::pad::PA08
@@ -803,18 +687,6 @@ pads:
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::pad::PB11
     mode: Peripheral IO
     user_label: EDBG_COM_RX
-    configuration: null
-  IO1_TWI_SDA:
-    name: PA12
-    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::pad::PA12
-    mode: I2C
-    user_label: IO1_TWI_SDA
-    configuration: null
-  IO1_TWI_SCL:
-    name: PA13
-    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::pad::PA13
-    mode: I2C
-    user_label: IO1_TWI_SCL
     configuration: null
 toolchain_options: []
 static_files: []

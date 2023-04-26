@@ -21,33 +21,17 @@ extern "C" {
 #include <hal_io.h>
 #include <hal_sleep.h>
 
-#include <hal_adc_sync.h>
-
-#include <hal_i2c_m_sync.h>
-
 #include <hal_i2c_m_sync.h>
 
 #include <hal_usart_sync.h>
 
-extern struct adc_sync_descriptor IO1_LIGHT_SENS;
-
 extern struct i2c_m_sync_desc I2C_SERCOM0;
 
-extern struct i2c_m_sync_desc I2C_SERCOM2;
-
 extern struct usart_sync_descriptor EDBG_COM;
-
-void IO1_LIGHT_SENS_PORT_init(void);
-void IO1_LIGHT_SENS_CLOCK_init(void);
-void IO1_LIGHT_SENS_init(void);
 
 void I2C_SERCOM0_CLOCK_init(void);
 void I2C_SERCOM0_init(void);
 void I2C_SERCOM0_PORT_init(void);
-
-void I2C_SERCOM2_CLOCK_init(void);
-void I2C_SERCOM2_init(void);
-void I2C_SERCOM2_PORT_init(void);
 
 void EDBG_COM_PORT_init(void);
 void EDBG_COM_CLOCK_init(void);

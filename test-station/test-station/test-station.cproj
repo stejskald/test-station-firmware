@@ -59,7 +59,6 @@
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_init.h" IsConfig="false" Hash="OrYSVpF3YA5XrOBImWpdSg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_io.h" IsConfig="false" Hash="XZRSabc39WU/0MFBLYGLvQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_sleep.h" IsConfig="false" Hash="KuZDwgrLdU+fuMG82ZFTqg" />
-          <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_adc_dma.h" IsConfig="false" Hash="ZNWJ5APLfPqPLqI7LDqlMA" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_core.h" IsConfig="false" Hash="XeEtUlBSwXUmLA41hFYYWg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_delay.h" IsConfig="false" Hash="3tgjyGPrs0ePCewpMUQPbQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_div.h" IsConfig="false" Hash="/304VtLseVRGc3k20mxdNA" />
@@ -132,21 +131,14 @@
           <AcmeProjectActionInfo Action="File" Source="hri/hri_tcc_c21.h" IsConfig="false" Hash="swziss8N9oFH8/JLnRzDmA" />
           <AcmeProjectActionInfo Action="File" Source="hri/hri_tsens_c21.h" IsConfig="false" Hash="OFh3vm9bu5bqLHs8A9r6tA" />
           <AcmeProjectActionInfo Action="File" Source="hri/hri_wdt_c21.h" IsConfig="false" Hash="Mv9f3Eq4CdnYzB5ovab7Ew" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor/at30tse75x/at30tse75x.c" IsConfig="false" Hash="kX9guIWwoF0VP1u+Pjw4KA" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor/at30tse75x/at30tse75x.h" IsConfig="false" Hash="J+OKXCErWSxOQn2q2z0QUg" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor/temperature_sensor.c" IsConfig="false" Hash="mpt4gKxrNs8BBqHysNS6vg" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor/temperature_sensor.h" IsConfig="false" Hash="zZQ7ThVR8FCuppv96uiF7A" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="hu5vTuydzHkAOBIWKsI+SA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="S4Unlle7S5r7OoqnjRUYig" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="e0cnKb4LviFXxkw2/p3dxg" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="Q/dxu01pwVXefij0hH5Tbg" />
-          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="BVNFVbkFxQtXeUv5nhGpZQ" />
-          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="4OCJbACfZX5tY+1LvhJCYA" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="veFGyupuipJhk2yleltE4g" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="HE90JuNatVRPuEJiGt9fJQ" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="V54bYd4XS9WnFBwbhufXrQ" />
+          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="B2QW3D0JtwUL7xJlBEM42A" />
+          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="vYL0+ENtI8O+k8FmvZH2Og" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_divas_config.h" IsConfig="false" Hash="guqltsUm9QXCxoea3f+S6g" />
-          <AcmeProjectActionInfo Action="File" Source="hal/include/hal_adc_sync.h" IsConfig="false" Hash="ez1X5T9kpYwT+1+5x4Pxqg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_usart_sync.h" IsConfig="false" Hash="ZzIGSRyjZuxRzFAtNNt7sw" />
-          <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_adc_async.h" IsConfig="false" Hash="kKbVmqgGDUkuWZYErBwgVA" />
-          <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_adc_sync.h" IsConfig="false" Hash="dCWrizZn0RtcCM73jZ/k6A" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_missing_features.h" IsConfig="false" Hash="XsAvpgfutzkw0Y5SydYFaw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_reset.h" IsConfig="false" Hash="t71gNFwDHh1n8JrU8Mj+Fg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_spi_m_async.h" IsConfig="false" Hash="JyMw9jeJO0jGqfT03txHXQ" />
@@ -156,11 +148,8 @@
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_spi_s_sync.h" IsConfig="false" Hash="gEGr6GqKbsOQvxQYz2fotA" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_usart_async.h" IsConfig="false" Hash="tBfmk3BN3Q1WbYVoWDbsJw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_usart_sync.h" IsConfig="false" Hash="Yj+PoPxG2CqDOy5XoIWkwg" />
-          <AcmeProjectActionInfo Action="File" Source="hal/src/hal_adc_sync.c" IsConfig="false" Hash="g0MT/8E9mrmMV9tMAyu/aQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/src/hal_usart_sync.c" IsConfig="false" Hash="VBVlAmBFEYTTUMHeIRFSxg" />
           <AcmeProjectActionInfo Action="File" Source="hal/utils/include/parts.h" IsConfig="false" Hash="gDxBdOKaTco/C5qCYdc9tw" />
-          <AcmeProjectActionInfo Action="File" Source="hpl/adc/hpl_adc.c" IsConfig="false" Hash="CHw4PrtXzpWxF4N620cnRQ" />
-          <AcmeProjectActionInfo Action="File" Source="hpl/adc/hpl_adc_base.h" IsConfig="false" Hash="19A6ERNtsVVhqvnpGbR3Lg" />
           <AcmeProjectActionInfo Action="File" Source="hpl/core/hpl_core_m0plus_base.c" IsConfig="false" Hash="Qi2FtuWLBmnjJYwz+gmCBQ" />
           <AcmeProjectActionInfo Action="File" Source="hpl/core/hpl_core_port.h" IsConfig="false" Hash="RXrDMMracCeflR1F9jWiGg" />
           <AcmeProjectActionInfo Action="File" Source="hpl/core/hpl_init.c" IsConfig="false" Hash="Zo2NdnuL+Q4wV0pCzAuQPg" />
@@ -174,21 +163,16 @@
           <AcmeProjectActionInfo Action="File" Source="hpl/pm/hpl_pm_base.h" IsConfig="false" Hash="KOec1StxUZxY/RKBDbMkpg" />
           <AcmeProjectActionInfo Action="File" Source="hpl/port/hpl_gpio_base.h" IsConfig="false" Hash="pi/nsboTZy9PgPw9YqcBew" />
           <AcmeProjectActionInfo Action="File" Source="hpl/sercom/hpl_sercom.c" IsConfig="false" Hash="dr5LuevJbM4AXs6Wy7Dpsg" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor_main.c" IsConfig="false" Hash="62b0V7EbIjB5dl/FEglNQg" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor_main.h" IsConfig="false" Hash="Bic/sMO3XVJ5a8MBocN0QQ" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start.h" IsConfig="false" Hash="NxJS1hy3ur6adeedEykupg" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start.c" IsConfig="false" Hash="nUELP8LuLO8slZk6QX1QXw" />
-          <AcmeProjectActionInfo Action="File" Source="config/hpl_adc_config.h" IsConfig="true" Hash="NbeFFag7X9sf00I3RNcy2g" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start.h" IsConfig="false" Hash="9RBG5E2ViQiSP2Gn4/FGpA" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start.c" IsConfig="false" Hash="1RHIE7zTtYK4DURNPUqF9w" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_dmac_config.h" IsConfig="true" Hash="hV4w94QYMtiYBFUmwSGP0A" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_gclk_config.h" IsConfig="true" Hash="GvXvy9QSSh2mD0hH0f4dBw" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_mclk_config.h" IsConfig="true" Hash="/swHvGO5TdejhfeKUx92FQ" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_osc32kctrl_config.h" IsConfig="true" Hash="e9o/TJDK3cfkTdnVxdMDjA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_oscctrl_config.h" IsConfig="true" Hash="MFkb7361mIbmG8grnSY7kQ" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_port_config.h" IsConfig="true" Hash="rMTNR+5FXtu+wfT1NbfRRA" />
-          <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="ENVSVpxDUjuGpIPQj6SEfg" />
-          <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="WUgzsqaxO4wsPmy9pBczFQ" />
-          <AcmeProjectActionInfo Action="File" Source="temperature_sensor/at30tse75x/at30tse75x_config.h" IsConfig="true" Hash="ovZeQ0MWGafjFLiI1d2Ezw" />
-          <AcmeProjectActionInfo Action="File" Source="config/io1_xplained_demo_config.h" IsConfig="true" Hash="LNbDf16H0hZAZv+dnmeYzg" />
+          <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="NtQ+tmoGaRXUJo7n9kxCmA" />
+          <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="IAjfYiqbGqfdLok3jox7dw" />
         </AcmeActionInfos>
         <NonsecureFilesInfo />
       </AcmeProjectConfig>
@@ -231,7 +215,6 @@
       <Value>../examples</Value>
       <Value>../hal/include</Value>
       <Value>../hal/utils/include</Value>
-      <Value>../hpl/adc</Value>
       <Value>../hpl/core</Value>
       <Value>../hpl/divas</Value>
       <Value>../hpl/dmac</Value>
@@ -243,8 +226,6 @@
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hri</Value>
-      <Value>../temperature_sensor</Value>
-      <Value>../temperature_sensor/at30tse75x</Value>
       <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
@@ -272,7 +253,6 @@
       <Value>../examples</Value>
       <Value>../hal/include</Value>
       <Value>../hal/utils/include</Value>
-      <Value>../hpl/adc</Value>
       <Value>../hpl/core</Value>
       <Value>../hpl/divas</Value>
       <Value>../hpl/dmac</Value>
@@ -284,8 +264,6 @@
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hri</Value>
-      <Value>../temperature_sensor</Value>
-      <Value>../temperature_sensor/at30tse75x</Value>
       <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
@@ -297,7 +275,6 @@
       <Value>../examples</Value>
       <Value>../hal/include</Value>
       <Value>../hal/utils/include</Value>
-      <Value>../hpl/adc</Value>
       <Value>../hpl/core</Value>
       <Value>../hpl/divas</Value>
       <Value>../hpl/dmac</Value>
@@ -309,8 +286,6 @@
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hri</Value>
-      <Value>../temperature_sensor</Value>
-      <Value>../temperature_sensor/at30tse75x</Value>
       <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
@@ -338,7 +313,6 @@
       <Value>../examples</Value>
       <Value>../hal/include</Value>
       <Value>../hal/utils/include</Value>
-      <Value>../hpl/adc</Value>
       <Value>../hpl/core</Value>
       <Value>../hpl/divas</Value>
       <Value>../hpl/dmac</Value>
@@ -350,8 +324,6 @@
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hri</Value>
-      <Value>../temperature_sensor</Value>
-      <Value>../temperature_sensor/at30tse75x</Value>
       <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
@@ -380,7 +352,6 @@
       <Value>../examples</Value>
       <Value>../hal/include</Value>
       <Value>../hal/utils/include</Value>
-      <Value>../hpl/adc</Value>
       <Value>../hpl/core</Value>
       <Value>../hpl/divas</Value>
       <Value>../hpl/dmac</Value>
@@ -392,8 +363,6 @@
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hri</Value>
-      <Value>../temperature_sensor</Value>
-      <Value>../temperature_sensor/at30tse75x</Value>
       <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
@@ -406,7 +375,6 @@
       <Value>../examples</Value>
       <Value>../hal/include</Value>
       <Value>../hal/utils/include</Value>
-      <Value>../hpl/adc</Value>
       <Value>../hpl/core</Value>
       <Value>../hpl/divas</Value>
       <Value>../hpl/dmac</Value>
@@ -418,8 +386,6 @@
       <Value>../hpl/port</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hri</Value>
-      <Value>../temperature_sensor</Value>
-      <Value>../temperature_sensor/at30tse75x</Value>
       <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
@@ -438,9 +404,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="config\at30tse75x_config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="config\hpl_adc_config.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="config\hpl_divas_config.h">
@@ -467,9 +430,6 @@
     <Compile Include="config\hpl_sercom_config.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="config\io1_xplained_demo_config.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="config\peripheral_clk_config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -494,9 +454,6 @@
     <Compile Include="examples\driver_examples.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="hal\include\hal_adc_sync.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="hal\include\hal_atomic.h">
       <SubType>compile</SubType>
     </Compile>
@@ -519,15 +476,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\include\hal_usart_sync.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hal\include\hpl_adc_async.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hal\include\hpl_adc_dma.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hal\include\hpl_adc_sync.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\include\hpl_core.h">
@@ -605,9 +553,6 @@
     <Compile Include="hal\include\hpl_usart_sync.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="hal\src\hal_adc_sync.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="hal\src\hal_atomic.c">
       <SubType>compile</SubType>
     </Compile>
@@ -672,12 +617,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\utils\src\utils_syscalls.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hpl\adc\hpl_adc.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hpl\adc\hpl_adc_base.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hpl\core\hpl_core_m0plus_base.c">
@@ -845,29 +784,10 @@
     <Compile Include="source\at24c.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="temperature_sensor\at30tse75x\at30tse75x.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="temperature_sensor\at30tse75x\at30tse75x.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="temperature_sensor\temperature_sensor.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="temperature_sensor\temperature_sensor.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="temperature_sensor_main.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="temperature_sensor_main.h">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\" />
     <Folder Include="Device_Startup\" />
-    <Folder Include="documentation\" />
     <Folder Include="examples\" />
     <Folder Include="hal\" />
     <Folder Include="hal\documentation\" />
@@ -877,7 +797,6 @@
     <Folder Include="hal\utils\include\" />
     <Folder Include="hal\utils\src\" />
     <Folder Include="hpl\" />
-    <Folder Include="hpl\adc\" />
     <Folder Include="hpl\core\" />
     <Folder Include="hpl\divas\" />
     <Folder Include="hpl\dmac\" />
@@ -891,23 +810,12 @@
     <Folder Include="hri\" />
     <Folder Include="include" />
     <Folder Include="source" />
-    <Folder Include="temperature_sensor\" />
-    <Folder Include="temperature_sensor\at30tse75x\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Device_Startup\samc21j18a_flash.ld">
       <SubType>compile</SubType>
     </None>
     <None Include="Device_Startup\samc21j18a_sram.ld">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="documentation\io1_xplained_demo.rst">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="documentation\temperature_sensor.rst">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="hal\documentation\adc_sync.rst">
       <SubType>compile</SubType>
     </None>
     <None Include="hal\documentation\i2c_master_sync.rst">

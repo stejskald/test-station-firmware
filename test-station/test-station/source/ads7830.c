@@ -20,9 +20,10 @@ ADS7830_t i2c_adc;
 void ads7830_init_ext(void){
 	
 	// Initialize the I2C I/O Communication
-	i2c_m_sync_get_io_descriptor(&I2C_SERCOM2, &ads7830_io);
+	i2c_m_sync_enable(&I2C_SERCOM0);
+	i2c_m_sync_get_io_descriptor(&I2C_SERCOM0, &ads7830_io);
 	set_ads7830_i2c_address(ADS7830_I2C_ADDR); 
-	i2c_m_sync_set_slaveaddr(&I2C_SERCOM2, i2c_adc.i2c_address, I2C_M_SEVEN);
+	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, i2c_adc.i2c_address, I2C_M_SEVEN);
 }
 
 void set_ads7830_i2c_address(uint8_t i2c_address){

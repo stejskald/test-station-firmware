@@ -91,8 +91,11 @@ void at24c_init(void);
 void set_at24c_params(AT24C_t *i2c_eeprom);
 
 ERROR_t at24c_byte_write(uint16_t byte_address, uint8_t *byte_buffer);
+ERROR_t at24c_page_write(uint16_t address, uint8_t *page_buffer, uint8_t length);
 
 
 ERROR_t at24c_current_addr_read(uint8_t *byte_buffer);
+ERROR_t at24c_random_read(uint16_t address, uint8_t *byte_buffer);
+ERROR_t at24c_sequential_read(uint16_t address, uint8_t *data_buffer, uint16_t length);
 
 #endif /* AT24C_H_ */

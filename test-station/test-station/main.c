@@ -33,8 +33,8 @@
 
 #include "atmel_start.h"
 #include "atmel_start_pins.h"
-#include "io1_xplained_demo_config.h"
-#include "temperature_sensor_main.h"
+// #include "io1_xplained_demo_config.h"
+// #include "temperature_sensor_main.h"
 #include "include/error_codes.h"
 #include "include/ads7830.h"
 #include "include/at24c.h"
@@ -59,34 +59,40 @@ int main(void)
 	atmel_start_init();
 	
 	UART_EDBG_init();
-	i2c_m_sync_enable(&I2C_SERCOM2);
-	ads7830_init_ext();
+// 	ads7830_init_ext();
 	at24c_init();
 	
 	char terminal_string[STR_SIZE];
-	uint8_t adc_buffer[8];
-	uint8_t eeprom_buffer[4];
+// 	uint8_t adc_buffer[8];
+// 	uint8_t eeprom_buffer[8];
+	uint8_t eeprom_page_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES];
 	uint16_t eeprom_rw_addr;
 	int8_t ret_code = 0;
 	
 	io_write(terminal_io, (uint8_t *)"Well, terminal works!\n", 22);
 	
-	eeprom_buffer[0] = 'A';
-	eeprom_rw_addr = 0x1234;
-	ret_code = at24c_byte_write(eeprom_rw_addr, &eeprom_buffer[0]);
-	if (ret_code != 0){
-		if(0 > snprintf(terminal_string, STR_SIZE, "Byte write to EEPROM failed with code %d.\n", ret_code)) return -666;
-		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+	eeprom_rw_addr = 0x0000;
+	uint8_t eeprom_test_page[AT24C_EEPROM_PAGE_SIZE_BYTES];
+	for (uint8_t i = 0; i < sizeof(eeprom_test_page); ++i){
+		eeprom_test_page[i] = i;
 	}
 	
-	ret_code = at24c_current_addr_read(&eeprom_buffer[1]);
-	if (ret_code != 0){
-		if(0 > snprintf(terminal_string, STR_SIZE, "Current address read from EEPROM failed with code %d.\n", ret_code)) return -666;
-		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
-	}
-	
-	while (1) {
-		delay_ms(150);
+	while (1) {		
+		delay_ms(10000);
+		ret_code = at24c_page_write(eeprom_rw_addr, eeprom_test_page, AT24C_EEPROM_PAGE_SIZE_BYTES);
+		if (ret_code != 0){
+			if(0 > snprintf(terminal_string, STR_SIZE, "Byte write to EEPROM failed with code %d.\n", ret_code)) return -666;
+			io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+		}
+		ret_code = 0;
+		
+		delay_ms(10000);
+		ret_code = at24c_sequential_read(eeprom_rw_addr, eeprom_page_buffer, AT24C_EEPROM_PAGE_SIZE_BYTES);
+		if (ret_code != 0){
+			if(0 > snprintf(terminal_string, STR_SIZE, "Read from EEPROM failed with code %d.\n", ret_code)) return -666;
+			io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+		}
+		ret_code = 0;
 		
 // 		for (uint8_t chnl = 0; chnl < 8; ++chnl) {
 // 			adc_buffer[chnl] = ads7830_measure_single_ended(SDMODE_SINGLE, chnl, PDIROFF_ADCON);
@@ -97,10 +103,10 @@ int main(void)
 // 		}
 		
 		
-		adc_buffer[0] = ads7830_measure_single_ended(SDMODE_SINGLE, 2, PDIROFF_ADCON);
-		
-		if(0 > snprintf(terminal_string, STR_SIZE, "Channel %u, value: 0x%x\n", 2, adc_buffer[0])) return -666;
-		io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
+		//adc_buffer[0] = ads7830_measure_single_ended(SDMODE_SINGLE, 2, PDIROFF_ADCON);
+		//
+		//if(0 > snprintf(terminal_string, STR_SIZE, "Channel %u, value: 0x%x\n", 2, adc_buffer[0])) return -666;
+		//io_write(terminal_io, (uint8_t *)terminal_string, strlen(terminal_string));
 		
 		
 		
