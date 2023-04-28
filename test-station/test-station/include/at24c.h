@@ -18,7 +18,6 @@
 /************************************************************************/
 /* AT24C256C Definitions                                                */
 /************************************************************************/
-
 #define AT24C_EEPROM_I2C_ADDR         (0x50)
 #define AT24C_EEPROM_PAGE_SIZE_BYTES  (64U)
 #define AT24C_EEPROM_TOTAL_SIZE_BYTES (32768U)

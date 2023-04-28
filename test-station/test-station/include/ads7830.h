@@ -4,7 +4,7 @@
  * Created: 18/04/2023 14:24:22
  *  Author: xstejs30
  *
- * Service library for ADS7830IPWR 8-Ch ADC over I2C
+ * Service library for ADS7830IPWR 8-Ch ADC via I2C
  *
  */ 
 
@@ -17,13 +17,17 @@ extern "C" {
 #endif
 
 #include "../driver_init.h"
+#include "../include/error_codes.h"
 
+
+/************************************************************************/
+/* ADS7830 Definitions                                                  */
+/************************************************************************/
 #define ADS7830_I2C_ADDR             (0x48)
-// #define ADS7830_I2C_ADDR_W ((ADS7830_I2C_ADDR << 1) | 0x00)
-// #define ADS7830_I2C_ADDR_R ((ADS7830_I2C_ADDR << 1) | 0x01)
-
-// Conversion Delay (in ms)
-#define ADS7830_CONVERSION_DELAY     (100)
+#define ADS7830_INT_VREF_MV          2500   // Internal Reference in mV
+#define ADS7830_N_CHNL               8      // Number of ADC channels
+#define ADS7830_RESOLUTION_BITS      8      // ADC Resolution in bits
+#define ADS7830_CONVERSION_DELAY     100    // Conversion Delay (in ms)
 
 // Command Byte Definitions
 #define ADS7830_CMD_SD_MASK          (0x80) // Single-Ended/Differential Inputs
@@ -54,6 +58,10 @@ extern "C" {
 #define ADS7830_CMD_PD_IRON_ADCOFF   (0x08) // Internal Reference ON and A/D Converter OFF
 #define ADS7830_CMD_PD_IRON_ADCON    (0x0C) // Internal Reference ON and A/D Converter ON
 
+
+/************************************************************************/
+/* ADS7830 Data Types                                                   */
+/************************************************************************/
 typedef enum {
 	SDMODE_DIFF   = ADS7830_CMD_SD_DIFF,
 	SDMODE_SINGLE = ADS7830_CMD_SD_SINGLE
@@ -74,23 +82,25 @@ typedef struct {
 } ADS7830_t;
 
 
-// extern struct i2c_m_sync_desc ADS7830;
-
 extern ADS7830_t i2c_adc;
 
 extern struct io_descriptor *ads7830_io;
 
-void ads7830_init_ext(void);
+
+/************************************************************************/
+/* ADS7830 Device Operations                                            */
+/************************************************************************/
+void ads7830_init(void);
 
 void set_ads7830_i2c_address(uint8_t i2c_address);
 uint8_t get_ads7830_i2c_address(void);
-
 
 void _set_ads7830_i2c_cmd_sd_mode(ads7830_sd_mode_t sd_mode);
 void _set_ads7830_i2c_cmd_pd_mode(ads7830_pd_mode_t pd_mode);
 bool _set_ads7830_i2c_cmd_byte(ads7830_sd_mode_t sd_mode, uint8_t channel, ads7830_pd_mode_t pd_mode);
 
-uint8_t ads7830_measure_single_ended(ads7830_sd_mode_t sd_mode, uint8_t channel, ads7830_pd_mode_t pd_mode);
+ERROR_t ads7830_measure_single_ended(ads7830_sd_mode_t sd_mode, uint8_t channel, ads7830_pd_mode_t pd_mode, uint8_t *adc_data);
+ERROR_t ads7830_measure_all_channels_SE(ads7830_sd_mode_t sd_mode, ads7830_pd_mode_t pd_mode, uint8_t *adc_data);
 
 #ifdef __cplusplus
 }
