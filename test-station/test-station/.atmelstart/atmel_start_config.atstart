@@ -331,8 +331,8 @@ drivers:
       RESERVED_InputFreq_id: 32kHz High Accuracy Internal Oscillator (OSC32K)
       _$freq_output_Generic clock generator 0: 8000000
       _$freq_output_Generic clock generator 1: 1600000
-      _$freq_output_Generic clock generator 2: 32768
-      _$freq_output_Generic clock generator 3: 32768
+      _$freq_output_Generic clock generator 2: 1024
+      _$freq_output_Generic clock generator 3: 1024
       _$freq_output_Generic clock generator 4: 32768
       _$freq_output_Generic clock generator 5: 32768
       _$freq_output_Generic clock generator 6: 32768
@@ -341,7 +341,7 @@ drivers:
       enable_gclk_gen_0__externalclock: 1000000
       enable_gclk_gen_1: true
       enable_gclk_gen_1__externalclock: 1000000
-      enable_gclk_gen_2: false
+      enable_gclk_gen_2: true
       enable_gclk_gen_2__externalclock: 1000000
       enable_gclk_gen_3: false
       enable_gclk_gen_3__externalclock: 1000000
@@ -363,7 +363,7 @@ drivers:
       gclk_arch_gen_1_oe: false
       gclk_arch_gen_1_oov: false
       gclk_arch_gen_1_runstdby: false
-      gclk_arch_gen_2_enable: false
+      gclk_arch_gen_2_enable: true
       gclk_arch_gen_2_idc: false
       gclk_arch_gen_2_oe: false
       gclk_arch_gen_2_oov: false
@@ -399,12 +399,12 @@ drivers:
       gclk_gen_1_div: 5
       gclk_gen_1_div_sel: false
       gclk_gen_1_oscillator: 48MHz Internal Oscillator (OSC48M)
-      gclk_gen_2_div: 1
-      gclk_gen_2_div_sel: false
+      gclk_gen_2_div: 4
+      gclk_gen_2_div_sel: true
       gclk_gen_2_oscillator: 32kHz High Accuracy Internal Oscillator (OSC32K)
-      gclk_gen_3_div: 1
-      gclk_gen_3_div_sel: false
-      gclk_gen_3_oscillator: 32kHz External Crystal Oscillator (XOSC32K)
+      gclk_gen_3_div: 4
+      gclk_gen_3_div_sel: true
+      gclk_gen_3_oscillator: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
       gclk_gen_4_div: 1
       gclk_gen_4_div_sel: false
       gclk_gen_4_oscillator: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
@@ -456,22 +456,22 @@ drivers:
       $input_id: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
       RESERVED_InputFreq: 32768
       RESERVED_InputFreq_id: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
-      _$freq_output_RTC source: 32768
-      enable_osc32k: false
+      _$freq_output_RTC source: 1024
+      enable_osc32k: true
       enable_osculp32k: true
       enable_rtc_source: false
       enable_xosc32k: false
       osc32k_arch_calib: 0
       osc32k_arch_calib_enable: false
-      osc32k_arch_en1k: false
-      osc32k_arch_en32k: false
-      osc32k_arch_enable: false
-      osc32k_arch_ondemand: false
+      osc32k_arch_en1k: true
+      osc32k_arch_en32k: true
+      osc32k_arch_enable: true
+      osc32k_arch_ondemand: true
       osc32k_arch_runstdby: false
-      osc32k_arch_startup: 92us
+      osc32k_arch_startup: 305us
       osculp32k_calib: 0
       osculp32k_calib_enable: false
-      rtc_1khz_selection: false
+      rtc_1khz_selection: true
       rtc_source_oscillator: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
       xosc32k_arch_cfden: false
       xosc32k_arch_cfdeo: false
@@ -574,6 +574,36 @@ drivers:
     variant: null
     clocks:
       domain_group: null
+  CALENDAR:
+    user_label: CALENDAR
+    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::RTC::driver_config_definition::Calendar::HAL:Driver:Calendar
+    functionality: Calendar
+    api: HAL:Driver:Calendar
+    configuration:
+      rtc_arch_init_reset: true
+      rtc_arch_prescaler: Peripheral clock divided by 1024
+      rtc_cmpeo0: false
+      rtc_event_control: false
+      rtc_ovfeo: false
+      rtc_pereo0: false
+      rtc_pereo1: false
+      rtc_pereo2: false
+      rtc_pereo3: false
+      rtc_pereo4: false
+      rtc_pereo5: false
+      rtc_pereo6: false
+      rtc_pereo7: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: RTC
+          input: RTC source
+          external: false
+          external_frequency: 0
+        configuration:
+          rtc_clk_selection: RTC source
   I2C_SERCOM0:
     user_label: I2C_SERCOM0
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::SERCOM0::driver_config_definition::I2C.Master.Standard~2FFast-mode::HAL:Driver:I2C.Master.Sync
@@ -608,12 +638,12 @@ drivers:
           external: false
           external_frequency: 0
         - name: Slow
-          input: Generic clock generator 3
+          input: Generic clock generator 1
           external: false
           external_frequency: 0
         configuration:
           core_gclk_selection: Generic clock generator 0
-          slow_gclk_selection: Generic clock generator 3
+          slow_gclk_selection: Generic clock generator 1
   EDBG_COM:
     user_label: EDBG_COM
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::SERCOM4::driver_config_definition::UART::HAL:Driver:USART.Sync
@@ -633,7 +663,7 @@ drivers:
       usart_arch_sampa: 7-8-9 (3-4-5 8-bit over-sampling)
       usart_arch_sampr: 16x arithmetic
       usart_arch_sfde: false
-      usart_baud_rate: 9600
+      usart_baud_rate: 38400
       usart_character_size: 8 bits
       usart_parity: No parity
       usart_rx_enable: true
@@ -653,16 +683,47 @@ drivers:
       domain_group:
         nodes:
         - name: Core
-          input: Generic clock generator 1
-          external: false
-          external_frequency: 0
-        - name: Slow
           input: Generic clock generator 0
           external: false
           external_frequency: 0
+        - name: Slow
+          input: Generic clock generator 1
+          external: false
+          external_frequency: 0
         configuration:
-          core_gclk_selection: Generic clock generator 1
-          slow_gclk_selection: Generic clock generator 0
+          core_gclk_selection: Generic clock generator 0
+          slow_gclk_selection: Generic clock generator 1
+  TIMER:
+    user_label: TIMER
+    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21J18A-AN::TC2::driver_config_definition::Timer::HAL:Driver:Timer
+    functionality: Timer
+    api: HAL:Driver:Timer
+    configuration:
+      tc_arch_dbgrun: false
+      tc_arch_evact: Event action disabled
+      tc_arch_mceo0: false
+      tc_arch_mceo1: false
+      tc_arch_ondemand: false
+      tc_arch_ovfeo: false
+      tc_arch_presync: Reload or reset counter on next GCLK
+      tc_arch_runstdby: false
+      tc_arch_tcei: false
+      tc_arch_tcinv: false
+      timer_advanced_configuration: false
+      timer_event_control: false
+      timer_prescaler: Divide by 1024
+      timer_tick: 1024
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: TC
+          input: Generic clock generator 2
+          external: false
+          external_frequency: 0
+        configuration:
+          tc_gclk_selection: Generic clock generator 2
 pads:
   PA08:
     name: PA08

@@ -44,8 +44,8 @@ typedef enum {
 	ERROR_WRONG_LENGTH				= -31,
 
 	ERROR_I2C_NACK					= -41, // I2C Slave returned NACK
-	ERROR_I2C_WRITE					= -42, //
-	ERROR_I2C_READ					= -43, //
+	ERROR_I2C_WRITE					= -42, // Error during I2C write process
+	ERROR_I2C_READ					= -43, // Error during I2C read process
 } ERROR_t;
 
 

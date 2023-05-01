@@ -1,13 +1,17 @@
 /*
- * date_time.h
+ * calendar.h
  *
- * Created: 28/04/2023 20:56:59
+ * Created: 01/05/2023 14:39:48
  *  Author: xstejs30
  */ 
 
 
-#ifndef DATE_TIME_H_
-#define DATE_TIME_H_
+#ifndef CALENDAR_H_
+#define CALENDAR_H_
+
+#include "../driver_init.h"
+
+#include <stdio.h>
 
 /************************************************************************/
 /* Struct containing: year, month, day, hour, minute, second            */
@@ -16,8 +20,7 @@
 /* - day: Day of the month (1--31)                                      */
 /* - hour, min, sec: Hour (0--23), minute (0--59) and second (0--59)    */
 /************************************************************************/
-typedef struct
-{
+typedef struct {
 	uint8_t year;
 	uint8_t month;
 	uint8_t day;
@@ -26,4 +29,12 @@ typedef struct
 	uint8_t sec;
 } date_time_t;
 
-#endif /* DATE_TIME_H_ */
+void calendar_initialization(date_time_t *p_date_time);
+
+// Callback function for Calendar alarm
+void alarm_cb(struct calendar_descriptor *const descr);
+
+uint8_t conv_str_to_2digits(const char *str_two_digits);
+void conv_str_to_date_time(date_time_t *date_time, const char *date, const char *time);
+
+#endif /* CALENDAR_H_ */

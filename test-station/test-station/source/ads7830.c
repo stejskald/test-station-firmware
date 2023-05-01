@@ -94,31 +94,35 @@ ERROR_t ads7830_measure_single_ended(ads7830_sd_mode_t sd_mode, uint8_t channel,
 	if (!_set_ads7830_i2c_cmd_byte(sd_mode, channel, pd_mode)) {
 		return ERROR_INVALID_DATA;
 	}
+		
+	SERCOM0->I2CM.ADDR.reg = i2c_adc.i2c_address << 1 | 0;   // Send ADC address with write bit
+	if (SERCOM0->I2CM.STATUS.bit.BUSERR || SERCOM0->I2CM.STATUS.bit.ARBLOST) {
+		return ERROR_I2C_WRITE;                              // Handle error
+	}
+	while(!SERCOM0->I2CM.INTFLAG.bit.MB);                    // Wait for transmission to complete
 	
-	// Write the Command Byte to ADC via I2C
-// 	uint8_t command[2] = { i2c_adc.cmd_byte, (i2c_adc.i2c_address << 1) | 1 };
-// 	if (io_write(ads7830_io, &i2c_adc.cmd_byte, 1) != 1){
-// 		return ERROR_I2C_WRITE;
-// 	}
-// 	delay_ms(ADS7830_CONVERSION_DELAY);
+	SERCOM0->I2CM.DATA.reg = i2c_adc.cmd_byte;               // Send configuration byte
+	if (SERCOM0->I2CM.STATUS.bit.BUSERR || SERCOM0->I2CM.STATUS.bit.ARBLOST) {
+		return ERROR_I2C_WRITE;                              // Handle error
+	}
+	while(!SERCOM0->I2CM.INTFLAG.bit.MB);                    // Wait for transmission to complete
+	if (SERCOM0->I2CM.STATUS.bit.RXNACK) {
+		return ERROR_I2C_NACK;								 // Handle error
+	}
 
-// 	if (io_read(ads7830_io, adc_data, 1) != 1){
-// 		return ERROR_I2C_READ;
-// 	}
+	SERCOM0->I2CM.ADDR.reg = i2c_adc.i2c_address << 1 | 1;   // Send ADC address with read bit
+	if (SERCOM0->I2CM.STATUS.bit.BUSERR || SERCOM0->I2CM.STATUS.bit.ARBLOST) {
+		return ERROR_I2C_READ;                               // Handle error
+	}
+	while(!SERCOM0->I2CM.INTFLAG.bit.SB);                    // Wait until data is received (stop bit to be sent)
+	if (SERCOM0->I2CM.STATUS.bit.RXNACK) {
+		return ERROR_I2C_NACK;								 // Handle error
+	}
 	
-	SERCOM0->I2CM.ADDR.reg = i2c_adc.i2c_address << 1 | 0; // Send ADC address with write bit
-	while(!SERCOM0->I2CM.INTFLAG.bit.MB); // Wait for transmission to complete
+	*adc_data = SERCOM0->I2CM.DATA.reg;                      // Read data from slave
 	
-	SERCOM0->I2CM.DATA.reg = i2c_adc.cmd_byte; // Send configuration byte
-	while(!SERCOM0->I2CM.INTFLAG.bit.MB); // Wait for transmission to complete
-// 	SERCOM0->I2CM.CTRLB.bit.CMD = 0x2; // Send repeated start condition
-
-	SERCOM0->I2CM.ADDR.reg = i2c_adc.i2c_address << 1 | 1; // Send ADC address with read bit
-	while(!SERCOM0->I2CM.INTFLAG.bit.SB); // Wait until data is received (stop bit to be sent)
-	
-	*adc_data = SERCOM0->I2CM.DATA.reg; // Read data from slave
-	while(!SERCOM0->I2CM.INTFLAG.bit.SB); // Wait until data is received (stop bit to be sent)
-	SERCOM0->I2CM.CTRLB.reg = SERCOM_I2CM_CTRLB_ACKACT | SERCOM_I2CM_CTRLB_CMD(0x3); // Send NACK after last byte and STOP command
+	// Send NACK after last byte and STOP command
+	SERCOM0->I2CM.CTRLB.reg = SERCOM_I2CM_CTRLB_ACKACT | SERCOM_I2CM_CTRLB_CMD(0x3); 
 
 	return ERROR_NONE;
 }
@@ -128,27 +132,49 @@ ERROR_t ads7830_measure_all_channels_SE(ads7830_sd_mode_t sd_mode, ads7830_pd_mo
 		return ERROR_INVALID_ARG;
 	}
 	
+// 	uint32_t start_time = millis(); // Get current time in milliseconds <- timer needs to be initialized first...
+// 	uint32_t timeout = 100;         // Set timeout in milliseconds
+	
 	for (uint8_t chnl = 0; chnl < ADS7830_N_CHNL; ++chnl)
 	{
 		if (!_set_ads7830_i2c_cmd_byte(sd_mode, chnl, pd_mode)) {
 			return ERROR_INVALID_DATA;
 		}
 		
-		SERCOM0->I2CM.ADDR.reg = i2c_adc.i2c_address << 1 | 0; // Send ADC address with write bit
-		while(!SERCOM0->I2CM.INTFLAG.bit.MB);                  // Wait for transmission to complete
-	
-		SERCOM0->I2CM.DATA.reg = i2c_adc.cmd_byte;             // Send configuration byte
-		while(!SERCOM0->I2CM.INTFLAG.bit.MB);                  // Wait for transmission to complete
-
-		SERCOM0->I2CM.ADDR.reg = i2c_adc.i2c_address << 1 | 1; // Send ADC address with read bit
-		while(!SERCOM0->I2CM.INTFLAG.bit.SB);                  // Wait until data is received (stop bit to be sent)
-	
-		adc_data[chnl] = SERCOM0->I2CM.DATA.reg;               // Read data from slave
-		while(!SERCOM0->I2CM.INTFLAG.bit.SB);                  // Wait until data is received (stop bit to be sent)
+		SERCOM0->I2CM.ADDR.reg = (i2c_adc.i2c_address << 1) | 0; // Send ADC address with write bit
+		if (SERCOM0->I2CM.STATUS.bit.BUSERR || SERCOM0->I2CM.STATUS.bit.ARBLOST) {
+			return ERROR_I2C_WRITE;                              // Handle error
+		}
+		while(!SERCOM0->I2CM.INTFLAG.bit.MB) {                   // Wait for transmission to complete
+// 			if(millis() - start_time > timeout){                 // Check if timeout has occurred - ...copy to all while loops
+// 				return ERROR_TIMEOUT;                            // Return error code indicating timeout
+// 			}
+		}                    
 		
-		SERCOM0->I2CM.CTRLB.reg = SERCOM_I2CM_CTRLB_ACKACT;    // Send a NACK after data is received
-		SERCOM0->I2CM.CTRLB.bit.CMD = 0x2;                     // Send repeated start condition
+		SERCOM0->I2CM.DATA.reg = i2c_adc.cmd_byte;               // Send configuration byte
+		if (SERCOM0->I2CM.STATUS.bit.BUSERR || SERCOM0->I2CM.STATUS.bit.ARBLOST) {
+			return ERROR_I2C_WRITE;                              // Handle error
+		}
+		while(!SERCOM0->I2CM.INTFLAG.bit.MB);                    // Wait for transmission to complete
+		if (SERCOM0->I2CM.STATUS.bit.RXNACK) {
+			return ERROR_I2C_NACK;								 // Handle error
+		}
+		
+		SERCOM0->I2CM.ADDR.reg = (i2c_adc.i2c_address << 1) | 1; // Send ADC address with read bit
+		if (SERCOM0->I2CM.STATUS.bit.BUSERR || SERCOM0->I2CM.STATUS.bit.ARBLOST) {
+			return ERROR_I2C_READ;                               // Handle error
+		}
+		while(!SERCOM0->I2CM.INTFLAG.bit.SB);                    // Wait until data is received (stop bit to be sent)
+		if (SERCOM0->I2CM.STATUS.bit.RXNACK) {
+			return ERROR_I2C_NACK;								 // Handle error
+		}
+
+		adc_data[chnl] = SERCOM0->I2CM.DATA.reg;                 // Read data from slave
+
+		SERCOM0->I2CM.CTRLB.reg = SERCOM_I2CM_CTRLB_ACKACT;      // Send a NACK after data is received
+		SERCOM0->I2CM.CTRLB.bit.CMD = 0x2;                       // Send repeated start condition
 	}
+	
 	// Send NACK after last byte and STOP command
 	SERCOM0->I2CM.CTRLB.reg = SERCOM_I2CM_CTRLB_ACKACT | SERCOM_I2CM_CTRLB_CMD(0x3);
 

@@ -7,8 +7,11 @@
 
 #include "test_station.h"
 #include "include/ads7830.h"
+#include "include/edbg.h"
 
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 const char* testPointNames[] = {
 	"VCC", "Air", "+5V", "+4V", "+3V3", "VDD", "DO0", "DO1"
@@ -95,4 +98,52 @@ bool verify_test_criteria_voltage_range(float percentage_voltage_range, uint8_t 
 	uint16_t meas_req_ratio = (uint16_t)((meas_volt / (float)req_voltage) * 1000U);
 	
 	return (meas_req_ratio >= (1000U - perc_volt)) && (meas_req_ratio <= (1000U + perc_volt));
+}
+
+void test_station_send_report(void){
+	io_write(edbg_io, (uint8_t *)"-----------------------------------------------------\n", 54);
+	io_write(edbg_io, (uint8_t *)"=====  Voltage Measurement Test Output Report  ======\n", 54);
+	io_write(edbg_io, (uint8_t *)"-----------------------------------------------------\n", 54);
+	
+	struct calendar_date_time dateTime;
+	calendar_get_date_time(&CALENDAR, &dateTime); // get actual date and time
+
+	sprintf(edbg_msg, "Date: %d-%02d-%02d\n", dateTime.date.year, dateTime.date.month, dateTime.date.day);
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	sprintf(edbg_msg, "Time: %02d:%02d:%02d\n\n", dateTime.time.hour, dateTime.time.min, dateTime.time.sec);
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	
+	io_write(edbg_io, (uint8_t *)"Test Configuration:\n", 20);
+	io_write(edbg_io, (uint8_t *)"- Measured DPS: <Name and Version>\n\n", 36);
+	io_write(edbg_io, (uint8_t *)"Test Results:\n", 14);
+	io_write(edbg_io, (uint8_t *)"- Test Points:\n", 15);
+	
+	for (uint8_t chnl = 0; chnl < ADS7830_N_CHNL; ++chnl){
+		sprintf(edbg_msg, "  - %s: \t %6.3f V -- %s\n", testPointNames[chnl], adc_volt_buffer[chnl],
+		meas_volt_passed[chnl] == true ? "PASS" : "FAIL");
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	
+	io_write(edbg_io, (uint8_t *)"\nPass/Fail Criteria:\n", 21);
+	sprintf(edbg_msg, "- Voltage in range ±%4.2f %%\n\n", TEST_CRIT_VOLT_RANGE_PERCENTAGE);
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	
+	io_write(edbg_io, (uint8_t *)"Conclusion:\n", 12);
+	
+	// Check if array meas_volt_passed contains all elements equal to true
+	uint8_t sum = 0;
+	for (uint8_t chnl=0; chnl < ADS7830_N_CHNL; ++chnl) sum += meas_volt_passed[chnl];
+	if (sum == ADS7830_N_CHNL)
+	io_write(edbg_io, (uint8_t *)"All measured voltages are within acceptable range.\n\n", 51);
+	else {
+		io_write(edbg_io, (uint8_t *)"The following TPs are not within acceptable range:\n", 51);
+		for (uint8_t chnl=0; chnl < ADS7830_N_CHNL; ++chnl){
+			if (!meas_volt_passed[chnl]) {
+				sprintf(edbg_msg, " - %s\n", testPointNames[chnl]);
+				io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+			}
+		}
+	}
+	
+	io_write(edbg_io, (uint8_t *)"\n-----------------------------------------------------\n\n", 56);
 }

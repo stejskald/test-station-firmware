@@ -49,11 +49,19 @@ extern "C" {
 /************************************************************************/
 extern const char* testPointNames[];
 
+
+/************************************************************************/
+/* Variables declarations                                               */
+/************************************************************************/
+float adc_volt_buffer[ADS7830_N_CHNL];
+bool meas_volt_passed[ADS7830_N_CHNL];
+
 /************************************************************************/
 /* Help function declarations                                           */
 /************************************************************************/
 float adc_raw_to_voltage(uint8_t adc_raw_data, uint8_t channel);
 bool verify_test_criteria_voltage_range(float percentage_voltage_range, uint8_t channel, float measured_voltage);
+void test_station_send_report(void);
 
 
 #ifdef __cplusplus

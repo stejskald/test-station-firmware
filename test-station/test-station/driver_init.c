@@ -11,9 +11,24 @@
 #include <utils.h>
 #include <hal_init.h>
 
+struct timer_descriptor TIMER;
+
+struct calendar_descriptor CALENDAR;
+
 struct i2c_m_sync_desc I2C_SERCOM0;
 
 struct usart_sync_descriptor EDBG_COM;
+
+void CALENDAR_CLOCK_init(void)
+{
+	hri_mclk_set_APBAMASK_RTC_bit(MCLK);
+}
+
+void CALENDAR_init(void)
+{
+	CALENDAR_CLOCK_init();
+	calendar_init(&CALENDAR, RTC);
+}
 
 void I2C_SERCOM0_PORT_init(void)
 {
@@ -75,11 +90,28 @@ void EDBG_COM_init(void)
 	EDBG_COM_PORT_init();
 }
 
+/**
+ * \brief Timer initialization function
+ *
+ * Enables Timer peripheral, clocks and initializes Timer driver
+ */
+static void TIMER_init(void)
+{
+	hri_mclk_set_APBCMASK_TC2_bit(MCLK);
+	hri_gclk_write_PCHCTRL_reg(GCLK, TC2_GCLK_ID, CONF_GCLK_TC2_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+
+	timer_init(&TIMER, TC2, _tc_get_timer());
+}
+
 void system_init(void)
 {
 	init_mcu();
 
+	CALENDAR_init();
+
 	I2C_SERCOM0_init();
 
 	EDBG_COM_init();
+
+	TIMER_init();
 }

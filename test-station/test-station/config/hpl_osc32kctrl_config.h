@@ -25,7 +25,7 @@
 // <id> rtc_1khz_selection
 #ifndef CONF_RTCCTRL_1KHZ
 
-#define CONF_RTCCTRL_1KHZ 0
+#define CONF_RTCCTRL_1KHZ 1
 
 #endif
 
@@ -131,7 +131,7 @@
 // <i> Indicates whether configuration for OSC32K is enabled or not
 // <id> enable_osc32k
 #ifndef CONF_OSC32K_CONFIG
-#define CONF_OSC32K_CONFIG 0
+#define CONF_OSC32K_CONFIG 1
 #endif
 
 // <h> 32kHz Internal Oscillator Control
@@ -139,7 +139,7 @@
 // <i> Indicates whether 32kHz Internal Oscillator is enabled or not
 // <id> osc32k_arch_enable
 #ifndef CONF_OSC32K_ENABLE
-#define CONF_OSC32K_ENABLE 0
+#define CONF_OSC32K_ENABLE 1
 #endif
 
 // <q> Oscillator Calibration Control
@@ -166,14 +166,14 @@
 // <0x7=>3967us
 // <id> osc32k_arch_startup
 #ifndef CONF_OSC32K_STARTUP
-#define CONF_OSC32K_STARTUP 0x0
+#define CONF_OSC32K_STARTUP 0x3
 #endif
 
 // <q> On Demand Control
 // <i> Indicates whether On Demand Control is enabled or not
 // <id> osc32k_arch_ondemand
 #ifndef CONF_OSC32K_ONDEMAND
-#define CONF_OSC32K_ONDEMAND 0
+#define CONF_OSC32K_ONDEMAND 1
 #endif
 
 // <q> Run in Standby
@@ -187,14 +187,14 @@
 // <i> Indicates whether 1kHz Output is enabled or not
 // <id> osc32k_arch_en1k
 #ifndef CONF_OSC32K_EN1K
-#define CONF_OSC32K_EN1K 0
+#define CONF_OSC32K_EN1K 1
 #endif
 
 // <q> 32kHz Output Enable
 // <i> Indicates whether 32kHz Output is enabled or not
 // <id> osc32k_arch_en32k
 #ifndef CONF_OSC32K_EN32K
-#define CONF_OSC32K_EN32K 0
+#define CONF_OSC32K_EN32K 1
 #endif
 // </h>
 // </e>

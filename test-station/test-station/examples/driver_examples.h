@@ -12,9 +12,13 @@
 extern "C" {
 #endif
 
+void CALENDAR_example(void);
+
 void I2C_SERCOM0_example(void);
 
 void EDBG_COM_example(void);
+
+void TIMER_example(void);
 
 #ifdef __cplusplus
 }
