@@ -30,7 +30,7 @@ extern "C" {
 
 
 /************************************************************************/
-/* Test Criteria                                                        */
+/* Testing Metrics/Criteria                                             */
 /************************************************************************/
 #define TEST_CRIT_VOLT_RANGE_PERCENTAGE 10.0f
 
@@ -45,6 +45,13 @@ extern "C" {
 
 
 /************************************************************************/
+/* Data Types Definitions                                               */
+/************************************************************************/
+// Pridat strukturu pro vysledek testu -- struct test_result_t
+// Pridat strukturu pro ulozeni nahrane konfigurace -- struct pcb_config_t
+
+
+/************************************************************************/
 /* Test Point names of specific PCB                                     */
 /************************************************************************/
 extern const char* testPointNames[];
@@ -55,6 +62,7 @@ extern const char* testPointNames[];
 /************************************************************************/
 float adc_volt_buffer[ADS7830_N_CHNL];
 bool meas_volt_passed[ADS7830_N_CHNL];
+
 
 /************************************************************************/
 /* Help function declarations                                           */

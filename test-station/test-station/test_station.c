@@ -102,7 +102,7 @@ bool verify_test_criteria_voltage_range(float percentage_voltage_range, uint8_t 
 
 void test_station_send_report(void){
 	io_write(edbg_io, (uint8_t *)"-----------------------------------------------------\n", 54);
-	io_write(edbg_io, (uint8_t *)"=====  Voltage Measurement Test Output Report  ======\n", 54);
+	io_write(edbg_io, (uint8_t *)"===========  Automatic Test Final Report  ===========\n", 54);
 	io_write(edbg_io, (uint8_t *)"-----------------------------------------------------\n", 54);
 	
 	struct calendar_date_time dateTime;

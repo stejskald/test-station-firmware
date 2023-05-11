@@ -7,6 +7,7 @@
 #include "include/timer.h"
 #include "include/ads7830.h"
 #include "include/at24c.h"
+#include "include/pca9557.h"
 
 #include <hal_delay.h>
 #include <stdio.h>
@@ -23,6 +24,7 @@ date_time_t *p_cmpl_date_time = &cmpl_date_time;
 
 ERROR_t test_eeprom(void);
 ERROR_t test_adc(void);
+ERROR_t test_gpio_expander(void);
 
 int main(void)
 {
@@ -38,16 +40,88 @@ int main(void)
 	timer_initialization();
 	at24c_init();
 	ads7830_init();
+	pca9557_init();
 	
 	while (1) {
-		delay_ms(5000);
+		delay_ms(1000);
 		
 // 		if (test_eeprom() != ERROR_NONE) return ERROR_FAILURE;
 // 		if (test_adc() != ERROR_NONE) return ERROR_FAILURE;
 // 		test_station_send_report();
 		
-		
+		if (test_gpio_expander() != ERROR_NONE) return ERROR_FAILURE;
 	}
+}
+
+ERROR_t test_gpio_expander(void){
+// 	uint8_t pca9557_reg_buffer;
+// 	uint8_t pca9557_reg_settings = PCA9557_REG_CONFIG;
+	uint8_t ret_val = 0;
+	
+// 	ret_code = pca9557_get_reg(PCA9557_REG_CONFIG, &pca9557_reg_buffer);
+// 	if (ret_code == ERROR_NONE){
+// 		sprintf(edbg_msg, "Config register has value 0x%x.\n", pca9557_reg_buffer);
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+// 	
+// 	ret_code = pca9557_set_reg(PCA9557_REG_CONFIG, pca9557_reg_settings);
+// 	if (ret_code == ERROR_NONE){
+// 		sprintf(edbg_msg, "Setting of config reg was successful.\n");
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+// 	
+// 	ret_code = pca9557_get_reg(PCA9557_REG_OUTPUT, &pca9557_reg_buffer);
+// 	if (ret_code == ERROR_NONE){
+// 		sprintf(edbg_msg, "Output register has value 0x%x.\n", pca9557_reg_buffer);
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+// 	
+// 	ret_code = pca9557_get_reg(PCA9557_REG_INPUT, &pca9557_reg_buffer);
+// 	if (ret_code == ERROR_NONE){
+// 		sprintf(edbg_msg, "Input register has value 0x%x.\n", pca9557_reg_buffer);
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+
+// 	ret_val = pca9557_get_pin(IO1, PCA9557_REG_CONFIG);
+// 	if (ret_val >= ERROR_NONE){
+// 		sprintf(edbg_msg, "Selected pin has value 0x%x.\n", ret_val);
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+// 	
+// 	ret_val = pca9557_set_pin(IO1, PCA9557_REG_CONFIG, IO_LOW);
+// 	if (ret_val >= ERROR_NONE){
+// 		sprintf(edbg_msg, "Selected pin was set to 0x%x.\n", ret_val);
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+// 	
+// 	ret_val = pca9557_get_pin(IO1, PCA9557_REG_CONFIG);
+// 	if (ret_val >= ERROR_NONE){
+// 		sprintf(edbg_msg, "Selected pin has value 0x%x.\n", ret_val);
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+	
+	return ERROR_NONE;
+}
+
+ERROR_t test_adc(void){
+	uint8_t adc_raw_buffer[ADS7830_N_CHNL];
+	
+	ret_code = ads7830_measure_all_channels_SE(SDMODE_SINGLE, PDIROFF_ADCON, adc_raw_buffer);
+	if (ret_code == ERROR_NONE){
+		for (uint8_t chnl = 0; chnl < ADS7830_N_CHNL; ++chnl){
+			adc_volt_buffer[chnl] = adc_raw_to_voltage(adc_raw_buffer[chnl], chnl);
+			meas_volt_passed[chnl] = verify_test_criteria_voltage_range(TEST_CRIT_VOLT_RANGE_PERCENTAGE,
+			chnl, adc_volt_buffer[chnl]);
+		}
+	}
+	return ERROR_NONE;
 }
 
 ERROR_t test_eeprom(void){
@@ -75,19 +149,5 @@ ERROR_t test_eeprom(void){
 	}
 	ret_code = ERROR_NONE;
 	
-	return ERROR_NONE;
-}
-
-ERROR_t test_adc(void){
-	uint8_t adc_raw_buffer[ADS7830_N_CHNL];
-	
-	ret_code = ads7830_measure_all_channels_SE(SDMODE_SINGLE, PDIROFF_ADCON, adc_raw_buffer);
-	if (ret_code == ERROR_NONE){
-		for (uint8_t chnl = 0; chnl < ADS7830_N_CHNL; ++chnl){
-			adc_volt_buffer[chnl] = adc_raw_to_voltage(adc_raw_buffer[chnl], chnl);
-			meas_volt_passed[chnl] = verify_test_criteria_voltage_range(TEST_CRIT_VOLT_RANGE_PERCENTAGE,
-																		chnl, adc_volt_buffer[chnl]);
-		}
-	}
 	return ERROR_NONE;
 }

@@ -860,6 +860,9 @@
     <Compile Include="include\error_codes.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\pca9557.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\timer.h">
       <SubType>compile</SubType>
     </Compile>
@@ -876,6 +879,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\edbg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\pca9557.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\timer.c">
