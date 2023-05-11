@@ -47,65 +47,65 @@ int main(void)
 		
 // 		if (test_eeprom() != ERROR_NONE) return ERROR_FAILURE;
 // 		if (test_adc() != ERROR_NONE) return ERROR_FAILURE;
-// 		test_station_send_report();
-		
-		if (test_gpio_expander() != ERROR_NONE) return ERROR_FAILURE;
+// 		test_station_send_report();	
+// 		if (test_gpio_expander() != ERROR_NONE) return ERROR_FAILURE;
+
+
 	}
 }
 
 ERROR_t test_gpio_expander(void){
-// 	uint8_t pca9557_reg_buffer;
-// 	uint8_t pca9557_reg_settings = PCA9557_REG_CONFIG;
-// 	uint8_t ret_val = 0;
+	uint8_t pca9557_reg_settings = 0x03; // IO0, IO1: Inputs, other Outputs
+	uint8_t ret_val = ERROR_NONE;
 	
-// 	ret_code = pca9557_get_reg(PCA9557_REG_CONFIG, &pca9557_reg_buffer);
-// 	if (ret_code == ERROR_NONE){
-// 		sprintf(edbg_msg, "Config register has value 0x%x.\n", pca9557_reg_buffer);
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
-// 	
-// 	ret_code = pca9557_set_reg(PCA9557_REG_CONFIG, pca9557_reg_settings);
-// 	if (ret_code == ERROR_NONE){
-// 		sprintf(edbg_msg, "Setting of config reg was successful.\n");
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
-// 	
-// 	ret_code = pca9557_get_reg(PCA9557_REG_OUTPUT, &pca9557_reg_buffer);
-// 	if (ret_code == ERROR_NONE){
-// 		sprintf(edbg_msg, "Output register has value 0x%x.\n", pca9557_reg_buffer);
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
-// 	
-// 	ret_code = pca9557_get_reg(PCA9557_REG_INPUT, &pca9557_reg_buffer);
-// 	if (ret_code == ERROR_NONE){
-// 		sprintf(edbg_msg, "Input register has value 0x%x.\n", pca9557_reg_buffer);
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
+	ret_val = _pca9557_get_reg(PCA9557_REG_CONFIG);
+	if (ret_val >= ERROR_NONE){
+		sprintf(edbg_msg, "Config register has value 0x%x.\n", ret_val);
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
+	
+	ret_code = _pca9557_set_reg(PCA9557_REG_CONFIG, pca9557_reg_settings);
+	if (ret_code == ERROR_NONE){
+		sprintf(edbg_msg, "Setting of config reg was successful.\n");
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
+	
+	ret_val = _pca9557_get_reg(PCA9557_REG_OUTPUT);
+	if (ret_val >= ERROR_NONE){
+		sprintf(edbg_msg, "Output register has value 0x%x.\n", ret_val);
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
+	
+	ret_val = _pca9557_get_reg(PCA9557_REG_INPUT);
+	if (ret_val >= ERROR_NONE){
+		sprintf(edbg_msg, "Input register has value 0x%x.\n", ret_val);
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
 
-// 	ret_val = pca9557_get_pin(IO1, PCA9557_REG_CONFIG);
-// 	if (ret_val >= ERROR_NONE){
-// 		sprintf(edbg_msg, "Selected pin has value 0x%x.\n", ret_val);
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
-// 	
-// 	ret_val = pca9557_set_pin(IO1, PCA9557_REG_CONFIG, IO_LOW);
-// 	if (ret_val >= ERROR_NONE){
-// 		sprintf(edbg_msg, "Selected pin was set to 0x%x.\n", ret_val);
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
-// 	
-// 	ret_val = pca9557_get_pin(IO1, PCA9557_REG_CONFIG);
-// 	if (ret_val >= ERROR_NONE){
-// 		sprintf(edbg_msg, "Selected pin has value 0x%x.\n", ret_val);
-// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-// 	}
-// 	ret_code = ERROR_NONE;
+	ret_val = _pca9557_get_pin(IO1, PCA9557_REG_CONFIG);
+	if (ret_val >= ERROR_NONE){
+		sprintf(edbg_msg, "Selected pin has value 0x%x.\n", ret_val);
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
+	
+	ret_val = _pca9557_set_pin(IO1, PCA9557_REG_CONFIG, IO_LOW);
+	if (ret_val >= ERROR_NONE){
+		sprintf(edbg_msg, "Selected pin was set to 0x%x.\n", ret_val);
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
+	
+	ret_val = _pca9557_get_pin(IO1, PCA9557_REG_CONFIG);
+	if (ret_val >= ERROR_NONE){
+		sprintf(edbg_msg, "Selected pin has value 0x%x.\n", ret_val);
+		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	}
+	ret_code = ERROR_NONE;
 	
 	return ERROR_NONE;
 }
