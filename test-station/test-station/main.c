@@ -56,7 +56,7 @@ int main(void)
 ERROR_t test_gpio_expander(void){
 // 	uint8_t pca9557_reg_buffer;
 // 	uint8_t pca9557_reg_settings = PCA9557_REG_CONFIG;
-	uint8_t ret_val = 0;
+// 	uint8_t ret_val = 0;
 	
 // 	ret_code = pca9557_get_reg(PCA9557_REG_CONFIG, &pca9557_reg_buffer);
 // 	if (ret_code == ERROR_NONE){

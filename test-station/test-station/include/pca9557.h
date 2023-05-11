@@ -20,14 +20,14 @@
 /************************************************************************/
 #define PCA9557_I2C_ADDR         0x18  
 #define PCA9557_N_CHNL           8     // Number of channels (IOs)
-// #define PCA9557_NUM_BYTES        0x01; 
-#define PCA9557_ALL_INPUT        0xff; 
-#define PCA9557_ALL_OUTPUT       0x00; 
-#define PCA9557_ALL_LOW          0x00; 
-#define PCA9557_ALL_NON_INVERTED 0x00; 
-#define PCA9557_ALL_HIGH         0xff; 
-#define PCA9557_ALL_INVERTED     0xff; 
-#define PCA9557_COM_SUCCESS      0x00; 
+// #define PCA9557_NUM_BYTES        0x01 
+#define PCA9557_ALL_INPUT        0xff
+#define PCA9557_ALL_OUTPUT       0x00
+#define PCA9557_ALL_LOW          0x00
+#define PCA9557_ALL_NON_INVERTED 0x00
+#define PCA9557_ALL_HIGH         0xff
+#define PCA9557_ALL_INVERTED     0xff
+#define PCA9557_COM_SUCCESS      0x00 
 
 
 /************************************************************************/
@@ -90,13 +90,21 @@ extern struct io_descriptor *pca9557_io;
 /************************************************************************/
 /* Function definitions                                                 */
 /************************************************************************/
+uint8_t _pca9557_get_reg(pca9557_reg_addr_t reg_addr);
+uint8_t _pca9557_get_pin(pca9557_pin_t pin, pca9557_reg_addr_t reg);
+ERROR_t _pca9557_set_reg(pca9557_reg_addr_t reg, uint8_t reg_setting);
+ERROR_t _pca9557_set_pin(pca9557_pin_t pin, pca9557_reg_addr_t reg, pca9557_state_t new_pin_val);
+
 void pca9557_init(void);
-
-
-uint8_t pca9557_get_reg(pca9557_reg_addr_t reg_addr);
-uint8_t pca9557_get_pin(pca9557_pin_t pin, pca9557_reg_addr_t reg);
-ERROR_t pca9557_set_reg(pca9557_reg_addr_t reg, uint8_t reg_setting);
-ERROR_t pca9557_set_pin(pca9557_pin_t pin, pca9557_reg_addr_t reg, pca9557_state_t new_pin_val);
-// Add more
+void pca9557_reset(void);
+uint8_t pca9557_get_pin_mode(pca9557_pin_t pin);
+uint8_t pca9557_get_pin_state(pca9557_pin_t pin);
+uint8_t pca9557_get_pin_polarity(pca9557_pin_t pin);
+ERROR_t pca9557_set_pin_mode(pca9557_pin_t pin, pca9557_mode_t set_mode);
+ERROR_t pca9557_set_mode_all(pca9557_mode_t set_mode);
+ERROR_t pca9557_set_pin_state(pca9557_pin_t pin, pca9557_mode_t new_state);
+ERROR_t pca9557_set_state_all(pca9557_mode_t new_state);
+ERROR_t pca9557_set_pin_polarity(pca9557_pin_t pin, pca9557_polarity_t new_polarity);
+ERROR_t pca9557_set_polarity_all(pca9557_polarity_t new_polarity);
 
 #endif /* PCA9557_H_ */
