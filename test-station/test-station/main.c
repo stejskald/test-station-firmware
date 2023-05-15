@@ -22,6 +22,8 @@ char cmpl_time[9]  = {}; // 1 space for \n or \0 at the end
 static date_time_t cmpl_date_time = {0};
 date_time_t *p_cmpl_date_time = &cmpl_date_time;
 
+uint8_t eeprom_test_page[AT24C_EEPROM_PAGE_SIZE_BYTES];
+
 ERROR_t test_eeprom(void);
 ERROR_t test_adc(void);
 ERROR_t test_gpio_expander(void);
@@ -42,15 +44,21 @@ int main(void)
 	ads7830_init();
 	pca9557_init();
 	
+	for (uint8_t i = 0; i < sizeof(eeprom_test_page); ++i){
+		eeprom_test_page[i] = i;
+	}
+
+	
 	while (1) {
-		delay_ms(1000);
+		delay_ms(3000);
 		
-// 		if (test_eeprom() != ERROR_NONE) return ERROR_FAILURE;
-// 		if (test_adc() != ERROR_NONE) return ERROR_FAILURE;
-// 		test_station_send_report();	
+		if (test_eeprom() != ERROR_NONE) return ERROR_FAILURE;
 // 		if (test_gpio_expander() != ERROR_NONE) return ERROR_FAILURE;
-
-
+		
+// 		test_station_write_pcb_config();
+// 		test_station_read_pcb_config();
+// 		if (test_adc() != ERROR_NONE) return ERROR_FAILURE;
+// 		test_station_send_report();
 	}
 }
 
@@ -113,7 +121,7 @@ ERROR_t test_gpio_expander(void){
 ERROR_t test_adc(void){
 	uint8_t adc_raw_buffer[ADS7830_N_CHNL];
 	
-	ret_code = ads7830_measure_all_channels_SE(SDMODE_SINGLE, PDIROFF_ADCON, adc_raw_buffer);
+	ret_code = ads7830_measure_all_channels_SE(PDIROFF_ADCON, adc_raw_buffer);
 	if (ret_code == ERROR_NONE){
 		for (uint8_t chnl = 0; chnl < ADS7830_N_CHNL; ++chnl){
 			adc_volt_buffer[chnl] = adc_raw_to_voltage(adc_raw_buffer[chnl], chnl);
@@ -128,26 +136,38 @@ ERROR_t test_eeprom(void){
 	uint8_t eeprom_page_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES];
 	uint16_t eeprom_rw_addr;
 	eeprom_rw_addr = 0x0000;
-	uint8_t eeprom_test_page[AT24C_EEPROM_PAGE_SIZE_BYTES];
-	for (uint8_t i = 0; i < sizeof(eeprom_test_page); ++i){
-		eeprom_test_page[i] = i;
-	}
+// 	uint8_t eeprom_test_page[AT24C_EEPROM_PAGE_SIZE_BYTES];
+// 	for (uint8_t i = 0; i < sizeof(eeprom_test_page); ++i){
+// 		eeprom_test_page[i] = i;
+// 	}
+	uint8_t symbol = 'a';
+	uint8_t symbol2 = 0;
 	
 	delay_ms(2000);
-	ret_code = at24c_page_write(eeprom_rw_addr, eeprom_test_page, AT24C_EEPROM_PAGE_SIZE_BYTES);
+	ret_code = at24c_byte_write(eeprom_rw_addr, &symbol);
 	if (ret_code != ERROR_NONE){
 		if(0 > snprintf(edbg_msg, EDBG_MSG_LEN, "Byte write to EEPROM failed with code %d.\n", ret_code)) return ERROR_WRONG_LENGTH;
 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
 	}
 	ret_code = ERROR_NONE;
 	
-	delay_ms(2000);
-	ret_code = at24c_sequential_read(eeprom_rw_addr, eeprom_page_buffer, AT24C_EEPROM_PAGE_SIZE_BYTES);
-	if (ret_code != ERROR_NONE){
-		if(0 > snprintf(edbg_msg, EDBG_MSG_LEN, "Read from EEPROM failed with code %d.\n", ret_code)) return ERROR_WRONG_LENGTH;
-		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
-	}
-	ret_code = ERROR_NONE;
+	ret_code = at24c_random_read(eeprom_rw_addr, &symbol2);
+	snprintf(edbg_msg, EDBG_MSG_LEN, "Byte: 0x%x\n", symbol2);
 	
+// 	ret_code = at24c_page_write(eeprom_rw_addr, eeprom_test_page, AT24C_EEPROM_PAGE_SIZE_BYTES);
+// 	if (ret_code != ERROR_NONE){
+// 		if(0 > snprintf(edbg_msg, EDBG_MSG_LEN, "Byte write to EEPROM failed with code %d.\n", ret_code)) return ERROR_WRONG_LENGTH;
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+// 	
+// 	delay_ms(2000);
+// 	ret_code = at24c_sequential_read(eeprom_rw_addr, eeprom_page_buffer, AT24C_EEPROM_PAGE_SIZE_BYTES);
+// 	if (ret_code != ERROR_NONE){
+// 		if(0 > snprintf(edbg_msg, EDBG_MSG_LEN, "Read from EEPROM failed with code %d.\n", ret_code)) return ERROR_WRONG_LENGTH;
+// 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+// 	}
+// 	ret_code = ERROR_NONE;
+
 	return ERROR_NONE;
 }

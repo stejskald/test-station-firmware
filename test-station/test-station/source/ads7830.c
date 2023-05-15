@@ -87,11 +87,11 @@ bool _set_ads7830_i2c_cmd_byte(ads7830_sd_mode_t sd_mode, uint8_t channel, ads78
 	return true;
 }
 
-ERROR_t ads7830_measure_single_ended(ads7830_sd_mode_t sd_mode, uint8_t channel, ads7830_pd_mode_t pd_mode, uint8_t *adc_data){
+ERROR_t ads7830_measure_single_ended(uint8_t channel, ads7830_pd_mode_t pd_mode, uint8_t *adc_data){
 	if (adc_data == NULL){
 		return ERROR_INVALID_ARG;
 	}
-	if (!_set_ads7830_i2c_cmd_byte(sd_mode, channel, pd_mode)) {
+	if (!_set_ads7830_i2c_cmd_byte(ADS7830_CMD_SD_SINGLE, channel, pd_mode)) {
 		return ERROR_INVALID_DATA;
 	}
 		
@@ -127,7 +127,7 @@ ERROR_t ads7830_measure_single_ended(ads7830_sd_mode_t sd_mode, uint8_t channel,
 	return ERROR_NONE;
 }
 
-ERROR_t ads7830_measure_all_channels_SE(ads7830_sd_mode_t sd_mode, ads7830_pd_mode_t pd_mode, uint8_t *adc_data){
+ERROR_t ads7830_measure_all_channels_SE(ads7830_pd_mode_t pd_mode, uint8_t *adc_data){
 	if (adc_data == NULL){
 		return ERROR_INVALID_ARG;
 	}
@@ -137,7 +137,7 @@ ERROR_t ads7830_measure_all_channels_SE(ads7830_sd_mode_t sd_mode, ads7830_pd_mo
 	
 	for (uint8_t chnl = 0; chnl < ADS7830_N_CHNL; ++chnl)
 	{
-		if (!_set_ads7830_i2c_cmd_byte(sd_mode, chnl, pd_mode)) {
+		if (!_set_ads7830_i2c_cmd_byte(ADS7830_CMD_SD_SINGLE, chnl, pd_mode)) {
 			return ERROR_INVALID_DATA;
 		}
 		

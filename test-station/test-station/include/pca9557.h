@@ -90,11 +90,13 @@ extern struct io_descriptor *pca9557_io;
 /************************************************************************/
 /* Function definitions                                                 */
 /************************************************************************/
+// private functions:
 uint8_t _pca9557_get_reg(pca9557_reg_addr_t reg_addr);
 uint8_t _pca9557_get_pin(pca9557_pin_t pin, pca9557_reg_addr_t reg);
 ERROR_t _pca9557_set_reg(pca9557_reg_addr_t reg, uint8_t reg_setting);
 ERROR_t _pca9557_set_pin(pca9557_pin_t pin, pca9557_reg_addr_t reg, pca9557_state_t new_pin_val);
 
+// public functions:
 void pca9557_init(void);
 void pca9557_reset(void);
 uint8_t pca9557_get_pin_mode(pca9557_pin_t pin);

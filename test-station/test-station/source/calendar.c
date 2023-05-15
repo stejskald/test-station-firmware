@@ -53,7 +53,7 @@ void alarm_cb(struct calendar_descriptor *const descr){
 	dateTime.date.year, dateTime.date.month, dateTime.date.day,
 	dateTime.time.hour, dateTime.time.min, dateTime.time.sec);
 	
-	io_write(edbg_io, (uint8_t *)alarm_msg, strlen(alarm_msg));
+// 	io_write(edbg_io, (uint8_t *)alarm_msg, strlen(alarm_msg));
 	free(alarm_msg);
 }
 

@@ -45,10 +45,38 @@ extern "C" {
 
 
 /************************************************************************/
+/* Parameter definitions related to PCB CONFIGURATION                   */
+/************************************************************************/
+#define PCB_CFG_DPS_NAME_SIZE     64U // Bytes
+#define PCB_CFG_DPS_AUTHOR_SIZE   32U // Bytes
+#define PCB_CFG_DPS_VERSION_SIZE   4U // Bytes
+#define PCB_CFG_DATE_SIZE         10U // Bytes
+#define PCB_CFG_DESCRIPTION_SIZE 128U // Bytes
+#define PCB_CFG_SIZE               6U // Bytes
+
+#define PCB_CFG_DPS_NAME_ADDR    0x0000
+#define PCB_CFG_DPS_AUTHOR_ADDR  0x0040
+#define PCB_CFG_DPS_VERSION_ADDR 0x0060
+#define PCB_CFG_DATE_ADDR        0x0064
+#define PCB_CFG_DESCRIPTION_ADDR 0x006E
+#define PCB_CFG_ADDR             0x00EE
+
+
+/************************************************************************/
 /* Data Types Definitions                                               */
 /************************************************************************/
-// Pridat strukturu pro vysledek testu -- struct test_result_t
-// Pridat strukturu pro ulozeni nahrane konfigurace -- struct pcb_config_t
+typedef struct {
+	
+} test_result_t;
+
+typedef struct {
+	char dps_name[PCB_CFG_DPS_NAME_SIZE];
+	char author[PCB_CFG_DPS_AUTHOR_SIZE];
+	char dps_version[PCB_CFG_DPS_VERSION_SIZE];
+	char cfg_date[PCB_CFG_DATE_SIZE];
+	char dps_description[PCB_CFG_DESCRIPTION_SIZE];
+	uint8_t dps_cfg[PCB_CFG_SIZE];
+} pcb_config_t;
 
 
 /************************************************************************/
@@ -69,8 +97,11 @@ bool meas_volt_passed[ADS7830_N_CHNL];
 /************************************************************************/
 float adc_raw_to_voltage(uint8_t adc_raw_data, uint8_t channel);
 bool verify_test_criteria_voltage_range(float percentage_voltage_range, uint8_t channel, float measured_voltage);
+
 void test_station_send_report(void);
 
+void test_station_write_pcb_config(void);
+void test_station_read_pcb_config(void);
 
 #ifdef __cplusplus
 }

@@ -9,7 +9,7 @@
 #ifndef EDBG_H_
 #define EDBG_H_
 
-#define EDBG_MSG_LEN 60
+#define EDBG_MSG_LEN 128
 
 char edbg_msg[EDBG_MSG_LEN];
 

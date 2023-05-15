@@ -7,12 +7,15 @@
 
 #include "test_station.h"
 #include "include/ads7830.h"
+#include "include/at24c.h"
 #include "include/edbg.h"
 
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
+// In future get from desktop app
 const char* testPointNames[] = {
 	"VCC", "Air", "+5V", "+4V", "+3V3", "VDD", "DO0", "DO1"
 };
@@ -100,13 +103,17 @@ bool verify_test_criteria_voltage_range(float percentage_voltage_range, uint8_t 
 	return (meas_req_ratio >= (1000U - perc_volt)) && (meas_req_ratio <= (1000U + perc_volt));
 }
 
+static pcb_config_t pcb_cfg;
+// static pcb_config_t pcb_cfg_from_eeprom;
+
 void test_station_send_report(void){
 	io_write(edbg_io, (uint8_t *)"-----------------------------------------------------\n", 54);
-	io_write(edbg_io, (uint8_t *)"===========  Automatic Test Final Report  ===========\n", 54);
+	io_write(edbg_io, (uint8_t *)"===========  Final Automatic Test Report  ===========\n", 54);
 	io_write(edbg_io, (uint8_t *)"-----------------------------------------------------\n", 54);
 	
 	struct calendar_date_time dateTime;
-	calendar_get_date_time(&CALENDAR, &dateTime); // get actual date and time
+	// get actual date and time -- test board does not have a battery, so actual time must be got from PC
+	calendar_get_date_time(&CALENDAR, &dateTime);
 
 	sprintf(edbg_msg, "Date: %d-%02d-%02d\n", dateTime.date.year, dateTime.date.month, dateTime.date.day);
 	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
@@ -114,7 +121,20 @@ void test_station_send_report(void){
 	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
 	
 	io_write(edbg_io, (uint8_t *)"Test Configuration:\n", 20);
-	io_write(edbg_io, (uint8_t *)"- Measured DPS: <Name and Version>\n\n", 36);
+	snprintf(edbg_msg, EDBG_MSG_LEN, "- DPS Name: %s\n", pcb_cfg.dps_name); //pcb_cfg_from_eeprom
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	snprintf(edbg_msg, EDBG_MSG_LEN, "- Author Name: %s\n", pcb_cfg.author); //pcb_cfg_from_eeprom
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	snprintf(edbg_msg, EDBG_MSG_LEN, "- DPS Version: %s\n", pcb_cfg.dps_version); //pcb_cfg_from_eeprom
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	sprintf(edbg_msg, "- DPS Configuration Date: %s\n", pcb_cfg.cfg_date); //pcb_cfg_from_eeprom
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	sprintf(edbg_msg, "- DPS Description: %s\n\n", pcb_cfg.dps_description); //pcb_cfg_from_eeprom
+	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+	
+	io_write(edbg_io, (uint8_t *)"Test Configuration:\n", 20);
+	io_write(edbg_io, (uint8_t *)"- XXX: \n\n", 9);
+	
 	io_write(edbg_io, (uint8_t *)"Test Results:\n", 14);
 	io_write(edbg_io, (uint8_t *)"- Test Points:\n", 15);
 	
@@ -125,7 +145,7 @@ void test_station_send_report(void){
 	}
 	
 	io_write(edbg_io, (uint8_t *)"\nPass/Fail Criteria:\n", 21);
-	sprintf(edbg_msg, "- Voltage in range ±%4.2f %%\n\n", TEST_CRIT_VOLT_RANGE_PERCENTAGE);
+	sprintf(edbg_msg, "- Voltage in range +/-%4.2f %%\n\n", TEST_CRIT_VOLT_RANGE_PERCENTAGE);
 	io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
 	
 	io_write(edbg_io, (uint8_t *)"Conclusion:\n", 12);
@@ -136,14 +156,33 @@ void test_station_send_report(void){
 	if (sum == ADS7830_N_CHNL)
 	io_write(edbg_io, (uint8_t *)"All measured voltages are within acceptable range.\n\n", 51);
 	else {
-		io_write(edbg_io, (uint8_t *)"The following TPs are not within acceptable range:\n", 51);
+		io_write(edbg_io, (uint8_t *)"The following TPs are not within acceptable range:\n - ", 55);
 		for (uint8_t chnl=0; chnl < ADS7830_N_CHNL; ++chnl){
 			if (!meas_volt_passed[chnl]) {
-				sprintf(edbg_msg, " - %s\n", testPointNames[chnl]);
+				sprintf(edbg_msg, "%s", testPointNames[chnl]);
 				io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
+				if (!(chnl == ADS7830_N_CHNL - 1)) io_write(edbg_io, (uint8_t *)", ", 2);
 			}
 		}
 	}
 	
 	io_write(edbg_io, (uint8_t *)"\n-----------------------------------------------------\n\n", 56);
+}
+
+// Data initialized in this function will be obtained from desktop app in future...
+// When using snprintf (and other functions) with struct elements, saving to elements doesn't work properly! <--------
+void test_station_write_pcb_config(void){
+	snprintf(pcb_cfg.dps_name, PCB_CFG_DPS_NAME_SIZE,           "Prizpusobovaci DPS pro Aromatizacni system");
+	snprintf(pcb_cfg.author, PCB_CFG_DPS_AUTHOR_SIZE,           "David Stejskal");
+// 	snprintf(pcb_cfg.dps_version, PCB_CFG_DPS_VERSION_SIZE,     "v1.0");
+// 	snprintf(pcb_cfg.cfg_date, PCB_CFG_DATE_SIZE,               "08/05/2023");
+// 	snprintf(pcb_cfg.dps_description, PCB_CFG_DESCRIPTION_SIZE, "Tato Prizpusobovaci DPS je testovacim podstavcem pro ridici desku Aromatizacniho systemu.");
+	static const uint8_t dps_cfg_vals[PCB_CFG_SIZE] = {0x00, 0x00, 0x00, 0x22, 0x62, 0x88};
+	memcpy(pcb_cfg.dps_cfg, dps_cfg_vals, PCB_CFG_SIZE);
+	
+// 	at24c_page_write(PCB_CFG_DPS_NAME_ADDR, (uint8_t *) pcb_cfg.dps_name, PCB_CFG_DPS_NAME_SIZE);
+}
+
+void test_station_read_pcb_config(void){
+// 	at24c_sequential_read(PCB_CFG_DPS_NAME_ADDR, (uint8_t *) pcb_cfg_from_eeprom.dps_name, PCB_CFG_DPS_NAME_SIZE);
 }

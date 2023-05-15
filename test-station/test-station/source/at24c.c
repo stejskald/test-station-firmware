@@ -23,13 +23,13 @@ AT24C_t i2c_eeprom;
 /* EEPROM Initialization                                                */
 /************************************************************************/
 void at24c_init(void){
-	set_at24c_params(&i2c_eeprom);
+	_set_at24c_params(&i2c_eeprom);
 	i2c_m_sync_enable(&I2C_SERCOM0);
 	i2c_m_sync_get_io_descriptor(&I2C_SERCOM0, &at24c_io);
 	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, i2c_eeprom.slave_address, I2C_M_SEVEN);
 }
 
-void set_at24c_params(AT24C_t *i2c_eeprom){
+void _set_at24c_params(AT24C_t *i2c_eeprom){
 // 	i2c_eeprom->i2c = NULL; // Will implementation be needed?
 	i2c_eeprom->slave_address = AT24C_EEPROM_I2C_ADDR;
 	i2c_eeprom->page_size = AT24C_EEPROM_PAGE_SIZE_BYTES;
