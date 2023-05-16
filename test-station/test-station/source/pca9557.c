@@ -60,13 +60,17 @@ void pca9557_init(void){
 	// Initialize the I2C I/O Communication
 	i2c_m_sync_enable(&I2C_SERCOM0);
 	i2c_m_sync_get_io_descriptor(&I2C_SERCOM0, &pca9557_io);
-	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, PCA9557_I2C_ADDR, I2C_M_SEVEN);
+	pca9557_activate();
 }
 
 void pca9557_reset(void){
 	pca9557_set_mode_all(IO_INPUT);
 	pca9557_set_state_all(IO_HIGH);
 	pca9557_set_polarity_all(IO_NON_INVERTED);
+}
+
+void pca9557_activate(void){
+	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, PCA9557_I2C_ADDR, I2C_M_SEVEN);
 }
 
 uint8_t pca9557_get_pin_mode(pca9557_pin_t pin){
@@ -89,11 +93,11 @@ ERROR_t pca9557_set_mode_all(pca9557_mode_t set_mode){
 	return _pca9557_set_reg(PCA9557_REG_CONFIG, set_mode ? PCA9557_ALL_INPUT : PCA9557_ALL_OUTPUT);
 }
 
-ERROR_t pca9557_set_pin_state(pca9557_pin_t pin, pca9557_mode_t new_state){
+ERROR_t pca9557_set_pin_state(pca9557_pin_t pin, pca9557_state_t new_state){
 	return _pca9557_set_pin(pin, PCA9557_REG_OUTPUT, new_state);
 }
 
-ERROR_t pca9557_set_state_all(pca9557_mode_t new_state){
+ERROR_t pca9557_set_state_all(pca9557_state_t new_state){
 	return _pca9557_set_reg(PCA9557_REG_OUTPUT, new_state ? PCA9557_ALL_HIGH : PCA9557_ALL_LOW);
 }
 

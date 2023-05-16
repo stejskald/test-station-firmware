@@ -18,7 +18,7 @@
 /************************************************************************/
 /* AT24C256C Definitions                                                */
 /************************************************************************/
-#define AT24C_EEPROM_I2C_ADDR         0x57 //0x50
+#define AT24C_EEPROM_I2C_ADDR         0x50 //0x50
 #define AT24C_EEPROM_PAGE_SIZE_BYTES  64U
 #define AT24C_EEPROM_TOTAL_SIZE_BYTES 32768U
 
@@ -89,6 +89,7 @@ void _set_at24c_params(AT24C_t *i2c_eeprom);
 
 // public functions
 void at24c_init(void);
+void at24c_acivate(void);
 
 ERROR_t at24c_byte_write(uint16_t byte_address, uint8_t *byte_buffer);
 ERROR_t at24c_page_write(uint16_t address, uint8_t *page_buffer, uint8_t length);

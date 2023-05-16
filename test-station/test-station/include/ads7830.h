@@ -97,6 +97,7 @@ bool _set_ads7830_i2c_cmd_byte(ads7830_sd_mode_t sd_mode, uint8_t channel, ads78
 
 // public functions
 void ads7830_init(void);
+void ads7830_activate(void);
 void set_ads7830_i2c_address(uint8_t i2c_address);
 uint8_t get_ads7830_i2c_address(void);
 ERROR_t ads7830_measure_single_ended(uint8_t channel, ads7830_pd_mode_t pd_mode, uint8_t *adc_data);

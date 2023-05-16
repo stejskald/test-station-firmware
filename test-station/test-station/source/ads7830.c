@@ -19,12 +19,11 @@ struct io_descriptor *ads7830_io;
 ADS7830_t i2c_adc;
 
 void ads7830_init(void){
-	
 	// Initialize the I2C I/O Communication
 	i2c_m_sync_enable(&I2C_SERCOM0);
 	i2c_m_sync_get_io_descriptor(&I2C_SERCOM0, &ads7830_io);
 	set_ads7830_i2c_address(ADS7830_I2C_ADDR); 
-	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, i2c_adc.i2c_address, I2C_M_SEVEN);
+	ads7830_activate();
 }
 
 void set_ads7830_i2c_address(uint8_t i2c_address){
@@ -85,6 +84,10 @@ bool _set_ads7830_i2c_cmd_byte(ads7830_sd_mode_t sd_mode, uint8_t channel, ads78
 	_set_ads7830_i2c_cmd_pd_mode(pd_mode);
 	
 	return true;
+}
+
+void ads7830_activate(void){
+	i2c_m_sync_set_slaveaddr(&I2C_SERCOM0, i2c_adc.i2c_address, I2C_M_SEVEN);
 }
 
 ERROR_t ads7830_measure_single_ended(uint8_t channel, ads7830_pd_mode_t pd_mode, uint8_t *adc_data){
