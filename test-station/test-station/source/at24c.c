@@ -59,24 +59,36 @@ ERROR_t at24c_byte_write(uint16_t address, uint8_t *byte_buffer){
 }
 
 ERROR_t at24c_page_write(uint16_t address, uint8_t *page_buffer, uint8_t length){
-	if ((page_buffer == NULL) || !(length <= 64)){
+	if ((page_buffer == NULL) || !(length <= AT24C_EEPROM_PAGE_SIZE_BYTES)){
 		return ERROR_INVALID_ARG;
 	}
-	else{
-		uint8_t command[2+length];
-		memset(command, 0, (2+length)*sizeof(uint8_t));
-		command[0] = address >> 8;
-		command[1] = address & (0xff);
-		for (uint8_t i = 2; i <= 2+length; ++i) {
-			command[i] = page_buffer[i-2];
-		}
-		
-		if (io_write(at24c_io, command, 2+length) != 2+length){
-			return ERROR_I2C_WRITE;
-		}
-		
-		return ERROR_NONE;
+
+	uint8_t command[2+length];
+	memset(command, 0, (2+length)*sizeof(uint8_t));
+	command[0] = address >> 8;
+	command[1] = address & (0xff);
+	for (uint8_t i = 2; i <= 2+length; ++i) {
+		command[i] = page_buffer[i-2];
 	}
+		
+	if (io_write(at24c_io, command, 2+length) != 2+length){
+		return ERROR_I2C_WRITE;
+	}
+	delay_ms(AT24C_EEPROM_DELAY);
+	return ERROR_NONE;
+
+}
+
+ERROR_t at24c_page_clear(uint16_t page_number){
+	if ((page_number < 0) || (page_number >= AT24C_EEPROM_PAGE_COUNT)){
+		return ERROR_INVALID_ARG;
+	}
+	
+	ERROR_t ret_code = ERROR_NONE;
+	uint8_t zero_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES] = {0};	
+	ret_code = at24c_page_write((page_number*AT24C_EEPROM_PAGE_SIZE_BYTES), zero_buffer, AT24C_EEPROM_PAGE_SIZE_BYTES);
+	
+	return ret_code;
 }
 
 

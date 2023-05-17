@@ -20,7 +20,10 @@
 /************************************************************************/
 #define AT24C_EEPROM_I2C_ADDR         0x50 //0x50
 #define AT24C_EEPROM_PAGE_SIZE_BYTES  64U
+#define AT24C_EEPROM_PAGE_COUNT	      512U
 #define AT24C_EEPROM_TOTAL_SIZE_BYTES 32768U
+
+#define AT24C_EEPROM_DELAY 50U // ms
 
 
 /************************************************************************/
@@ -93,6 +96,7 @@ void at24c_acivate(void);
 
 ERROR_t at24c_byte_write(uint16_t byte_address, uint8_t *byte_buffer);
 ERROR_t at24c_page_write(uint16_t address, uint8_t *page_buffer, uint8_t length);
+ERROR_t at24c_page_clear(uint16_t page_number);
 
 ERROR_t at24c_current_addr_read(uint8_t *byte_buffer);
 ERROR_t at24c_random_read(uint16_t address, uint8_t *byte_buffer);

@@ -58,7 +58,7 @@ bool _read_pcb_config(void){
 	test_result.return_code = at24c_sequential_read(PCB_CFG_DATE_ADDR,        (uint8_t *) pcb_cfg_eeprom.cfg_date,        PCB_CFG_DATE_SIZE);
 	test_result.return_code = at24c_sequential_read(PCB_CFG_DPS_DESC_ADDR,    (uint8_t *) pcb_cfg_eeprom.dps_description, PCB_CFG_DPS_DESC_SIZE);
 	test_result.return_code = at24c_sequential_read(PCB_CFG_ADDR,             (uint8_t *) pcb_cfg_eeprom.dps_cfg,         PCB_CFG_SIZE);
-	
+  
 	// Implement check mechanism for each config value?
 	
 	if (test_result.return_code == ERROR_NONE){ return true; }
@@ -314,7 +314,7 @@ void test_station_write_pcb_config(void){
 	snprintf(pcb_cfg_app.author,          PCB_CFG_AUTHOR_SIZE,        "David Stejskal");
 	snprintf(pcb_cfg_app.dps_version,     PCB_CFG_DPS_VERSION_SIZE+1, "v1.0");
 	snprintf(pcb_cfg_app.cfg_date,        PCB_CFG_DATE_SIZE+1,        "08/05/2023");
-	snprintf(pcb_cfg_app.dps_description, PCB_CFG_DPS_DESC_SIZE,      "Tato Prizpusobovaci DPS je testovacim podstavcem pro ridici desku Aromatizacniho systemu.");
+	snprintf(pcb_cfg_app.dps_description, PCB_CFG_DPS_DESC_SIZE,    "Tato Prizpusobovaci DPS je testovacim podstavcem pro ridici desku Aromatizacniho systemu.");
 	static const uint8_t dps_cfg_vals[PCB_CFG_SIZE] =                  {0x88, 0x62, 0x22, 0x00, 0x00, 0x00};
 	memcpy(pcb_cfg_app.dps_cfg, dps_cfg_vals, PCB_CFG_SIZE);
 	
@@ -326,19 +326,11 @@ void test_station_write_pcb_config(void){
 	}
 	
 	at24c_acivate();
-// 	test_result.return_code = at24c_page_write(PCB_CFG_DPS_NAME_ADDR,    (uint8_t *) dps_name,    PCB_CFG_DPS_NAME_SIZE);
-// 	test_result.return_code = at24c_page_write(PCB_CFG_AUTHOR_ADDR,      (uint8_t *) author,      PCB_CFG_AUTHOR_SIZE);
-// 	test_result.return_code = at24c_page_write(PCB_CFG_DPS_VERSION_ADDR, (uint8_t *) dps_version, PCB_CFG_DPS_VERSION_SIZE);
-// 	test_result.return_code = at24c_page_write(PCB_CFG_DATE_ADDR,        (uint8_t *) cfg_date,    PCB_CFG_DATE_SIZE);
-// 	test_result.return_code = at24c_page_write(PCB_CFG_DPS_DESC_ADDR,    desc_buffer2, AT24C_EEPROM_PAGE_SIZE_BYTES);
-// 	test_result.return_code = at24c_page_write(PCB_CFG_DPS_DESC_ADDR+AT24C_EEPROM_PAGE_SIZE_BYTES, desc_buffer1, AT24C_EEPROM_PAGE_SIZE_BYTES);
-// 	test_result.return_code = at24c_page_write(PCB_CFG_ADDR,             (uint8_t *) dps_cfg,     PCB_CFG_SIZE);
-
-	test_result.return_code = at24c_page_write(0x0000,    (uint8_t *) pcb_cfg_app.dps_name,    PCB_CFG_DPS_NAME_SIZE);
-	test_result.return_code = at24c_page_write(0x0080,      (uint8_t *) pcb_cfg_app.author,      PCB_CFG_AUTHOR_SIZE);
-	test_result.return_code = at24c_page_write(0x0100, (uint8_t *) pcb_cfg_app.dps_version, PCB_CFG_DPS_VERSION_SIZE);
-	test_result.return_code = at24c_page_write(0x0180,        (uint8_t *) pcb_cfg_app.cfg_date,    PCB_CFG_DATE_SIZE);
-	test_result.return_code = at24c_page_write(0x0200,    desc_buffer2, AT24C_EEPROM_PAGE_SIZE_BYTES);
-	test_result.return_code = at24c_page_write(0x0280+0x0040, desc_buffer1, AT24C_EEPROM_PAGE_SIZE_BYTES);
-	test_result.return_code = at24c_page_write(0x0300,             (uint8_t *) pcb_cfg_app.dps_cfg,     PCB_CFG_SIZE);
+	test_result.return_code = at24c_page_write(PCB_CFG_DPS_NAME_ADDR,    (uint8_t *) pcb_cfg_app.dps_name,    PCB_CFG_DPS_NAME_SIZE);
+	test_result.return_code = at24c_page_write(PCB_CFG_AUTHOR_ADDR,      (uint8_t *) pcb_cfg_app.author,      PCB_CFG_AUTHOR_SIZE);
+	test_result.return_code = at24c_page_write(PCB_CFG_DPS_VERSION_ADDR, (uint8_t *) pcb_cfg_app.dps_version, PCB_CFG_DPS_VERSION_SIZE);
+	test_result.return_code = at24c_page_write(PCB_CFG_DATE_ADDR,        (uint8_t *) pcb_cfg_app.cfg_date,    PCB_CFG_DATE_SIZE);
+	test_result.return_code = at24c_page_write(PCB_CFG_DPS_DESC_ADDR,    desc_buffer1, AT24C_EEPROM_PAGE_SIZE_BYTES);
+	test_result.return_code = at24c_page_write(PCB_CFG_DPS_DESC_ADDR+AT24C_EEPROM_PAGE_SIZE_BYTES, desc_buffer2, AT24C_EEPROM_PAGE_SIZE_BYTES);
+	test_result.return_code = at24c_page_write(PCB_CFG_ADDR,             (uint8_t *) pcb_cfg_app.dps_cfg,     PCB_CFG_SIZE);
 }

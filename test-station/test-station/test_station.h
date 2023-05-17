@@ -59,12 +59,19 @@ extern "C" {
 #define PCB_CFG_DPS_DESC_SIZE     128U
 #define PCB_CFG_SIZE                6U
 
-#define PCB_CFG_DPS_NAME_ADDR     0x0000
-#define PCB_CFG_AUTHOR_ADDR       0x0040
-#define PCB_CFG_DPS_VERSION_ADDR  0x0060
-#define PCB_CFG_DATE_ADDR         0x0064
-#define PCB_CFG_DPS_DESC_ADDR     0x006E
-#define PCB_CFG_ADDR              0x00EE
+// #define PCB_CFG_DPS_NAME_ADDR     0x0000
+// #define PCB_CFG_AUTHOR_ADDR       0x0040
+// #define PCB_CFG_DPS_VERSION_ADDR  0x0060
+// #define PCB_CFG_DATE_ADDR         0x0064
+// #define PCB_CFG_DPS_DESC_ADDR     0x006E
+// #define PCB_CFG_ADDR              0x00EE
+
+#define PCB_CFG_DPS_NAME_ADDR     0x0000 //
+#define PCB_CFG_AUTHOR_ADDR       0x0060 //
+#define PCB_CFG_DPS_VERSION_ADDR  0x00A0 // EEPROM testing purposes...
+#define PCB_CFG_DATE_ADDR         0x00B0 // If the sections are close to each other,
+#define PCB_CFG_DPS_DESC_ADDR     0x00C0 // the written values ??are incorrect when read
+#define PCB_CFG_ADDR              0x0160 //
 
 #define CFG_ADC_GPIO_CHNLS_OFFSET 0x00
 #define CFG_DI_DO_COUNT_OFFSET    0x01

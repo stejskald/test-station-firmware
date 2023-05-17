@@ -26,8 +26,8 @@ ERROR_t test_eeprom(void);
 ERROR_t test_adc(void);
 ERROR_t test_gpio_expander(void);
 
-static uint8_t eeprom_zero_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES] = {0};
-static uint8_t eeprom_test_page[AT24C_EEPROM_PAGE_SIZE_BYTES];
+uint8_t eeprom_zero_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES] = {0};
+uint8_t eeprom_test_page[AT24C_EEPROM_PAGE_SIZE_BYTES];
 
 int main(void)
 {
@@ -45,21 +45,17 @@ int main(void)
 	ads7830_init();
 	pca9557_init();
 
-// 	test_station_write_pcb_config();
+	test_station_write_pcb_config();
 // 	test_station_main_test_script();
 
 	for (uint8_t i = 0; i < sizeof(eeprom_test_page); ++i){
 		eeprom_test_page[i] = i;
 	}
-
-	for (uint8_t i = 0; i < 16; ++i) {
-		ret_code = at24c_page_write((0x00+(i*64U)), eeprom_test_page, AT24C_EEPROM_PAGE_SIZE_BYTES);
-	}
-	
+				
 	while (1) {
 		delay_ms(2500);
 		
-		if (test_eeprom() != ERROR_NONE) return ERROR_FAILURE;
+// 		if (test_eeprom() != ERROR_NONE) return ERROR_FAILURE;
 // 		if (test_gpio_expander() != ERROR_NONE) return ERROR_FAILURE;
 // 		if (test_adc() != ERROR_NONE) return ERROR_FAILURE;
 		
@@ -150,12 +146,17 @@ ERROR_t test_adc(void){
 ERROR_t test_eeprom(void){
 	at24c_acivate();
 	
-	static uint8_t eeprom_page_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES];
-	static uint16_t eeprom_rw_addr = 0x0000;
-	static char eeprom_test_buffer[1024] = {0};
+	uint8_t eeprom_page_buffer[AT24C_EEPROM_PAGE_SIZE_BYTES];
+	uint16_t eeprom_rw_addr = 0x0000;
+	char eeprom_test_buffer[512] = {0};
+	
+	// Clear first 8 pages	
+// 	for (uint16_t i = 0; i < 8; ++i) {
+// 		ret_code = at24c_page_clear(i);
+// 	}
 	
 	delay_ms(2000);
-	ret_code = at24c_sequential_read(0x0000, (uint8_t *)eeprom_test_buffer, 1024);
+	ret_code = at24c_sequential_read(0x0000, (uint8_t *)eeprom_test_buffer, 512);
 	if (ret_code != 0){
 		if(0 > snprintf(edbg_msg, EDBG_MSG_LEN, "Read from EEPROM failed with code %d.\n", ret_code)) return ERROR_WRONG_LENGTH;
 		io_write(edbg_io, (uint8_t *)edbg_msg, strlen(edbg_msg));
